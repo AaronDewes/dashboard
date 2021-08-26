@@ -75,20 +75,12 @@
               >By clicking next, I agree that:</small
             >
             <span class="d-block text-muted text-small mb-1">
-              <b-icon
-                icon="exclamation-circle-fill"
-                variant="warning"
-                class="mr-1"
-              ></b-icon
-              >This software is in beta and should not be considered secure
+              <BIconExclamationCircleFill variant="warning" class="mr-1" />This
+              software is in beta and should not be considered secure
             </span>
             <span class="d-block text-muted text-small mb-1">
-              <b-icon
-                icon="exclamation-circle-fill"
-                variant="warning"
-                class="mr-1"
-              ></b-icon
-              >I should not put more funds on my node than I'm prepared to lose
+              <BIconExclamationCircleFill variant="warning" class="mr-1" />I
+              should not put more funds on my node than I'm prepared to lose
             </span>
           </div>
         </div>
@@ -104,12 +96,7 @@
             title="Your node uses neutrino while the sync is in progress, and automatically switches to Bitcoin Core once it's synced"
           >
             <small>
-              <b-icon
-                icon="exclamation-circle-fill"
-                variant="primary"
-                class="mr-1"
-              ></b-icon
-              >How?
+              <BIconExclamationCircleFill variant="primary" class="mr-1" />How?
             </small>
           </a>
         </div>

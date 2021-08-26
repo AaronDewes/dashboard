@@ -11,7 +11,8 @@
     />
     <b-input-group-append>
       <b-button :disabled="disabled" @click="togglePassword">
-        <b-icon :icon="showPassword ? 'eye-slash-fill' : 'eye-fill'"></b-icon>
+        <BIconEyeSlashFill v-if="showPassword" />
+        <BIconEyeFill v-else />
       </b-button>
     </b-input-group-append>
   </b-input-group>

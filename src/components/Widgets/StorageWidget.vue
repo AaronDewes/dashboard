@@ -130,14 +130,13 @@
                     >
                       <span v-if="app.id === 'umbrel'"
                         >System
-                        <b-icon
+                        <BIconInfoCircleFill
                           v-b-tooltip.hover.bottom
-                          icon="info-circle-fill"
                           style="opacity: 0.4"
                           variant="dark"
                           class="ml-1"
                           title="Including Bitcoin Core, LND, and Electrum server"
-                        ></b-icon>
+                        />
                       </span>
                       <span v-else>{{ getAppName(app.id) }}</span>
 

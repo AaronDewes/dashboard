@@ -371,7 +371,7 @@
                     variant="outline-success"
                     @click="showDmesg = !showDmesg"
                   >
-                    <b-icon icon="arrow-left-right" class="mr-1"></b-icon> View
+                    <BIconArrowLeftRight class="mr-1" /> View
                     {{ !showDmesg ? "Kernel logs" : "Main logs" }}
                   </b-button>
                   <b-button
@@ -379,7 +379,7 @@
                     variant="outline-success"
                     @click="downloadTextFile(debugContents, debugFilename)"
                   >
-                    <b-icon icon="download" class="mr-2"></b-icon>Download
+                    <BIconDownload class="mr-2" />Download
                     {{ showDmesg ? "Kernel logs" : "Main logs" }}
                   </b-button>
                 </div>
@@ -394,14 +394,14 @@
           </div>
           <div v-show="!isCheckingForUpdate">
             <span v-show="!availableUpdate.version">
-              <b-icon icon="check-circle-fill" variant="success"></b-icon>
+              <BIconCheckCircleFill />
               <small class="ml-1" style="opacity: 0.4"
                 >Your node is on the latest version</small
               >
             </span>
             <div v-show="availableUpdate.version">
               <span class="d-block">
-                <b-icon icon="bell-fill" variant="success"></b-icon>
+                <BIconBellFill />
                 <small class="text-muted ml-1"
                   >Umbrel v{{ availableUpdate.version }} is now available to
                   install</small
@@ -431,11 +431,10 @@
           :disabled="isCheckingForUpdate || isUpdating"
           @click="checkForUpdate"
         >
-          <b-icon
-            icon="arrow-repeat"
+          <BIconArrowRepeat
             class="mr-2"
             :animation="isCheckingForUpdate ? 'spin' : ''"
-          ></b-icon>
+          />
           {{ isCheckingForUpdate ? "Checking for update" : "Check for update" }}
         </b-button>
       </card-widget>
@@ -557,7 +556,9 @@ export default {
 
       try {
         await API.post(
-          `${process.env.VUE_APP_MANAGER_API_URL}/v1/account/change-password`,
+          `${
+            import.meta.env.VUE_APP_MANAGER_API_URL
+          }/v1/account/change-password`,
           payload,
           false
         );

@@ -385,7 +385,9 @@ export default {
     },
     async downloadChannelBackup() {
       await API.download(
-        `${process.env.VUE_APP_MIDDLEWARE_API_URL}/v1/lnd/util/download-channel-backup`,
+        `${
+          import.meta.env.VUE_APP_MIDDLEWARE_API_URL
+        }/v1/lnd/util/download-channel-backup`,
         {},
         true,
         "my-umbrel-channels.backup"

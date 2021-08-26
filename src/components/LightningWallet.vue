@@ -908,7 +908,9 @@ export default {
           }
           this.receive.invoiceStatusPollerInprogress = true;
           const invoices = await API.get(
-            `${process.env.VUE_APP_MIDDLEWARE_API_URL}/v1/lnd/lightning/invoices`
+            `${
+              import.meta.env.VUE_APP_MIDDLEWARE_API_URL
+            }/v1/lnd/lightning/invoices`
           );
           if (invoices && invoices.length) {
             //search for invoice
@@ -1023,7 +1025,9 @@ export default {
 
       try {
         const res = await API.post(
-          `${process.env.VUE_APP_MIDDLEWARE_API_URL}/v1/lnd/lightning/payInvoice`,
+          `${
+            import.meta.env.VUE_APP_MIDDLEWARE_API_URL
+          }/v1/lnd/lightning/payInvoice`,
           payload
         );
         if (res.data.paymentError) {
@@ -1064,7 +1068,9 @@ export default {
       setTimeout(async () => {
         try {
           const res = await API.post(
-            `${process.env.VUE_APP_MIDDLEWARE_API_URL}/v1/lnd/lightning/addInvoice`,
+            `${
+              import.meta.env.VUE_APP_MIDDLEWARE_API_URL
+            }/v1/lnd/lightning/addInvoice`,
             payload
           );
           this.receive.invoiceQR = this.receive.paymentRequest =
@@ -1107,7 +1113,9 @@ export default {
       this.loading = true;
 
       const fetchedInvoice = await API.get(
-        `${process.env.VUE_APP_MIDDLEWARE_API_URL}/v1/lnd/lightning/invoice?paymentRequest=${this.send.paymentRequest}`
+        `${
+          import.meta.env.VUE_APP_MIDDLEWARE_API_URL
+        }/v1/lnd/lightning/invoice?paymentRequest=${this.send.paymentRequest}`
       );
 
       if (!fetchedInvoice) {

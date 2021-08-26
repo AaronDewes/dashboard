@@ -1,6 +1,7 @@
 import { createApp, h } from "vue";
 //import VueConfetti from "vue-confetti";
-import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue-3";
+import BootstrapVue from "bootstrap-vue-3";
+import { BootstrapIconsPlugin } from "bootstrap-icons-vue";
 
 import App from "./App.vue";
 import router from "./router";
@@ -13,7 +14,7 @@ const app = createApp({
 });
 
 app.use(BootstrapVue);
-app.use(BootstrapVueIcons);
+app.use(BootstrapIconsPlugin);
 //app.use(VueConfetti);
 app.use(router);
 app.use(store);

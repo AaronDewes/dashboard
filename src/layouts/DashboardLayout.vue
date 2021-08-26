@@ -133,8 +133,8 @@
                   size="sm"
                   @click="downloadChannelBackup"
                 >
-                  <small> <b-icon icon="download" class="mr-1"></b-icon> </small
-                  >Download channel backup
+                  <small> <BIconDownload class="mr-1" /></small>Download channel
+                  backup
                 </b-button>
               </b-alert>
               <b-button
@@ -156,7 +156,7 @@
             :show="!!availableUpdate.version"
             dismissible
           >
-            <b-icon icon="bell-fill" class="mr-2"></b-icon>
+            <BIconBellFill class="mr-2" />
             <a
               :href="`https://github.com/getumbrel/umbrel/releases/tag/v${availableUpdate.version}`"
               target="_blank"
@@ -185,7 +185,7 @@
             show
             dismissible
           >
-            <b-icon icon="exclamation-circle" class="mr-2"></b-icon>
+            <BIconExclamationCircle class="mr-2" />
             <b>Low RAM:</b> Your node is running low on RAM. Consider
             uninstalling some apps or upgrading your node's hardware.
             <router-link to="/settings#ram" class="alert-link float-right"
@@ -199,7 +199,7 @@
             show
             dismissible
           >
-            <b-icon icon="exclamation-circle" class="mr-2"></b-icon>
+            <BIconExclamationCircle class="mr-2" />
             <b>Low storage:</b> Your node only has
             {{ readableSize(storage.total - storage.used) }} of storage left.
             Consider uninstalling some apps or upgrading to a larger drive.
@@ -214,7 +214,7 @@
             show
             dismissible
           >
-            <b-icon icon="exclamation-circle" class="mr-2"></b-icon>
+            <BIconExclamationCircle class="mr-2" />
             <b>High temperature:</b> Your Raspberry Pi is running hot. Consider
             using a heatsink, fan or a cooling case.
           </b-alert>
@@ -337,7 +337,9 @@ export default {
     },
     async downloadChannelBackup() {
       await API.download(
-        `${process.env.VUE_APP_MIDDLEWARE_API_URL}/v1/lnd/util/download-channel-backup`,
+        `${
+          import.meta.env.VUE_APP_MIDDLEWARE_API_URL
+        }/v1/lnd/util/download-channel-backup`,
         {},
         true,
         "my-umbrel-channels.backup"
@@ -352,7 +354,7 @@ export default {
     async startUpdate() {
       try {
         await API.post(
-          `${process.env.VUE_APP_MANAGER_API_URL}/v1/system/update`,
+          `${import.meta.env.VUE_APP_MANAGER_API_URL}/v1/system/update`,
           {}
         );
         this.isUpdating = true;
