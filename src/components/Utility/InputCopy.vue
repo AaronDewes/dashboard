@@ -13,7 +13,7 @@
       type="text"
       class="copy-input"
       readonly
-      v-model="value"
+      :value="value"
     ></b-form-input>
 
     <b-input-group-append class="copy-icon-btn" @click="copyText">
@@ -49,7 +49,10 @@ export default {
       type: String,
       default: "sm",
     },
-    value: String,
+    value: {
+      type: String,
+      required: true,
+    },
     autoWidth: {
       type: Boolean,
       default: false,
@@ -57,32 +60,29 @@ export default {
   },
   data() {
     return {
-      isCopied: false
+      isCopied: false,
     };
+  },
+  watch: {
+    value: function () {
+      this.isCopied = false;
+    },
   },
   methods: {
     copyText() {
       //copy generated invoice's text to clipboard
-
       const copyText = this.$refs["copy-input-field"];
       copyText.select();
       copyText.setSelectionRange(0, 99999); /*For mobile devices*/
       document.execCommand("copy");
-
       window.setTimeout(() => {
         copyText.blur();
         window.getSelection().removeAllRanges();
         this.isCopied = false;
       }, 1000);
-
       return (this.isCopied = true);
-    }
+    },
   },
-  watch: {
-    value: function() {
-      this.isCopied = false;
-    }
-  }
 };
 </script>
 

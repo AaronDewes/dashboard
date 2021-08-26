@@ -1,61 +1,40 @@
 {
-  "name": "umbrel-dashboard",
+  "name": "@runcitadel/dashboard",
   "version": "0.3.25",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --mode production",
-    "lint": "vue-cli-service lint"
+    "serve": "vite --open",
+    "preview": "vite preview --open --port 8080",
+    "build": "vite build --out-dir dist",
+    "lint": "eslint --ext .js,.vue src",
+    "lint:fix": "eslint --ext .js,.vue src --fix"
   },
   "dependencies": {
-    "animate.css": "^3.7.2",
-    "axios": "^0.19.2",
-    "bignumber.js": "^9.0.0",
-    "bootstrap-vue": "^2.11.0",
-    "core-js": "^3.4.4",
-    "countup.js": "^2.0.4",
-    "moment": "^2.24.0",
-    "qrcode.vue": "^1.7.0",
-    "vue": "^2.6.10",
-    "vue-confetti": "^2.0.7",
-    "vue-router": "^3.1.3",
-    "vue-slider-component": "^3.1.2",
-    "vuex": "^3.1.2"
+    "animate.css": "^4.1.1",
+    "axios": "^0.21.1",
+    "bignumber.js": "^9.0.1",
+    "bootstrap-vue-3": "^0.0.1",
+    "core-js": "^3.16.3",
+    "countup.js": "^2.0.8",
+    "moment": "^2.29.1",
+    "qrcode.vue": "^3.2.2",
+    "vue": "^3.2.6",
+    "vue-confetti": "^2.2.2",
+    "vue-router": "^4.0.11",
+    "vue-slider-component": "^4.0.0-beta.5",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.1.0",
-    "@vue/cli-plugin-eslint": "^4.1.0",
-    "@vue/cli-plugin-router": "^4.1.0",
-    "@vue/cli-plugin-vuex": "^4.1.0",
-    "@vue/cli-service": "^4.1.0",
-    "@vue/eslint-config-prettier": "^5.0.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-vue": "^5.0.0",
-    "prettier": "^1.19.1",
-    "sass": "^1.23.7",
-    "sass-loader": "^8.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "@vitejs/plugin-vue": "1.6.0",
+    "@vue/compiler-sfc": "^3.2.6",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "eslint-plugin-vue": "^7.16.0",
+    "prettier": "^2.3.2",
+    "sass": "^1.38.1",
+    "vite": "2.5.1",
+    "vue-eslint-parser": "^7.10.0"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/prettier"
-    ],
-    "rules": {
-      "no-console": "off"
-    },
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+  "packageManager": "yarn@3.0.1"
 }

@@ -10,16 +10,21 @@
           <div>
             <span v-if="channel.remoteAlias">{{ channel.remoteAlias }}</span>
             <span
-              class="loading-placeholder loading-placeholder-sm d-block"
-              style="width:80%; margin-top: 8px;"
               v-else
+              class="loading-placeholder loading-placeholder-sm d-block"
+              style="width: 80%; margin-top: 8px"
             ></span>
           </div>
         </div>
 
         <!-- on small screens -->
         <div
-          class="d-xl-none d-flex justify-content-between align-items-center mb-1"
+          class="
+            d-xl-none d-flex
+            justify-content-between
+            align-items-center
+            mb-1
+          "
         >
           <status :variant="statusVariant" size="sm">{{
             channel.status
@@ -33,18 +38,18 @@
         <div class>
           <div class="d-flex justify-content-between">
             <span
-              class="text-primary font-weight-bold"
               v-b-tooltip.hover.right
-              :title="channel.localBalance | satsToUSD"
-              >{{ channel.localBalance | unit | localize }}
-              {{ unit | formatUnit }}</span
+              class="text-primary font-weight-bold"
+              :title="$filters.satsToUSD(channel.localBalance)"
+              >{{ $filters.localize($filters.unit(channel.localBalance)) }}
+              {{ $filters.formatUnit(unit) }}</span
             >
             <span
               v-b-tooltip.hover.left
-              :title="channel.remoteBalance | satsToUSD"
+              :title="$filters.satsToUSD(channel.remoteBalance)"
               class="text-success text-right font-weight-bold"
-              >{{ channel.remoteBalance | unit | localize }}
-              {{ unit | formatUnit }}</span
+              >{{ $filters.localize($filters.unit(channel.remoteBalance)) }}
+              {{ $filters.formatUnit(unit) }}</span
             >
           </div>
           <bar
@@ -65,10 +70,23 @@
 </template>
 
 <script>
-import Status from "@/components/Utility/Status";
-import Bar from "@/components/Channels/Bar";
+import Status from "@/components/Utility/Status.vue";
+import Bar from "@/components/Channels/Bar.vue";
 
 export default {
+  components: {
+    Status,
+    Bar,
+  },
+  props: {
+    channel: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {};
+  },
   computed: {
     unit() {
       return this.$store.state.system.unit;
@@ -90,23 +108,20 @@ export default {
         return "danger";
       }
       return "default";
-    }
-  },
-  data() {
-    return {};
+    },
   },
   methods: {
     getStatusVariant() {
       if (this.channel.type === "OPEN") {
         return {
           text: "Online",
-          variant: "success"
+          variant: "success",
         };
       }
       if (this.channel.type === "PENDING_OPEN_CHANNEL") {
         return {
           text: "Opening",
-          variant: "warning"
+          variant: "warning",
         };
       }
       if (
@@ -115,24 +130,17 @@ export default {
       ) {
         return {
           text: "Closing",
-          variant: "warning"
+          variant: "warning",
         };
       }
       if (this.channel.type === "FORCE_CLOSING_CHANNEL") {
         return {
           text: "Force Closing",
-          variant: "danger"
+          variant: "danger",
         };
       }
-    }
+    },
   },
-  props: {
-    channel: Object
-  },
-  components: {
-    Status,
-    Bar
-  }
 };
 </script>
 

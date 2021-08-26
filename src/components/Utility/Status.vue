@@ -1,6 +1,7 @@
 <template>
   <small :class="`text-${variant}`" class="d-flex align-items-center">
     <svg
+      v-if="size === 'md'"
       width="8"
       height="8"
       class="mr-1"
@@ -8,11 +9,11 @@
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       :class="{ blink: blink }"
-      v-if="size === 'md'"
     >
       <circle cx="4" cy="4" r="4" :class="`fill-${variant}`" />
     </svg>
     <svg
+      v-else-if="size === 'sm'"
       width="6"
       height="6"
       class="mr-1"
@@ -20,7 +21,6 @@
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       :class="{ blink: blink }"
-      v-else-if="size === 'sm'"
     >
       <circle cx="3" cy="3" r="3" :class="`fill-${variant}`" />
     </svg>
@@ -34,24 +34,30 @@
 <script>
 export default {
   props: {
-    variant: String, //"success", "primary", "muted", "danger"
-    text: String,
+    variant: {
+      type: String, //"success", "primary", "muted", "danger"
+      default: "success",
+    },
+    text: {
+      type: String,
+      required: true,
+    },
     blink: {
       type: Boolean,
-      default: false
+      default: false,
     },
     size: {
       type: String,
-      default: "md" //sm or md
-    }
+      default: "md", //sm or md
+    },
   },
-  computed: {},
   data() {
     return {
-      state: {}
+      state: {},
     };
   },
-  methods: {}
+  computed: {},
+  methods: {},
 };
 </script>
 

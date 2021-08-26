@@ -1,4 +1,4 @@
-FROM node:12-buster-slim AS umbrel-dashboard-builder
+FROM node:16-bullseye-slim AS dashboard-builder
 
 ARG STAGING_DEPLOYMENT=false
 
@@ -21,11 +21,11 @@ COPY . .
 RUN yarn build
 
 
-FROM node:12-buster-slim AS umbrel-dashboard
+FROM node:16-bullseye-slim AS dashboard
 
 RUN yarn global add serve
 
-COPY --from=umbrel-dashboard-builder /app/dist/ /dist
+COPY --from=dashboard-builder /app/dist/ /dist
 
 ENV PORT=3004
 EXPOSE 3004

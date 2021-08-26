@@ -20,7 +20,12 @@
         Back</router-link
       >
       <div
-        class="d-flex flex-column flex-sm-row justify-content-between align-items-center"
+        class="
+          d-flex
+          flex-column flex-sm-row
+          justify-content-between
+          align-items-center
+        "
       >
         <div class="d-flex w-xs-100 justify-content-start pr-2">
           <div class="d-block">
@@ -40,8 +45,8 @@
           </div>
         </div>
         <div
-          class="w-xs-100 d-flex flex-column align-items-sm-center"
           v-if="isInstalled && !isUninstalling"
+          class="w-xs-100 d-flex flex-column align-items-sm-center"
         >
           <b-button
             v-if="isOffline"
@@ -58,10 +63,10 @@
             class="px-4"
             :href="url"
             target="_blank"
-            v-on:click="openApp($event)"
+            @click="openApp($event)"
             >Open</b-button
           >
-          <div class="mt-2 text-center" v-if="app.defaultPassword">
+          <div v-if="app.defaultPassword" class="mt-2 text-center">
             <small class="">The default password of this app is</small>
             <input-copy
               size="sm"
@@ -70,7 +75,7 @@
             ></input-copy>
           </div>
         </div>
-        <div class="d-flex flex-column align-items-sm-center w-xs-100" v-else>
+        <div v-else class="d-flex flex-column align-items-sm-center w-xs-100">
           <b-button
             v-if="isInstalling"
             variant="success"
@@ -101,8 +106,8 @@
             >This may take a few minutes</small
           >
           <div
-            class="mt-2 text-center"
             v-if="isInstalling && app.defaultPassword"
+            class="mt-2 text-center"
           >
             <small class="">The default password of this app is</small>
             <input-copy
@@ -117,8 +122,8 @@
     <div class="app-gallery pt-3 pb-4 mb-2 mb-sm-3">
       <img
         v-for="image in app.gallery"
-        class="app-gallery-screen mr-3"
         :key="image"
+        class="app-gallery-screen mr-3"
         :src="`https://getumbrel.github.io/umbrel-apps-gallery/${app.id}/${image}`"
       />
       <div class="d-block" style="padding: 1px"></div>
@@ -138,7 +143,7 @@
               <span>Version</span>
               <span>{{ app.version }}</span>
             </div>
-            <div class="d-flex justify-content-between mb-3" v-if="app.repo">
+            <div v-if="app.repo" class="d-flex justify-content-between mb-3">
               <span>Source Code</span>
               <a :href="app.repo" target="_blank">Public</a>
             </div>
@@ -150,12 +155,12 @@
               <span>Compatibility</span>
               <span>Compatible</span>
             </div>
-            <div class="mb-4" v-if="app.dependencies.length">
+            <div v-if="app.dependencies.length" class="mb-4">
               <span class="d-block mb-3">Requires</span>
               <div
-                class="d-flex align-items-center justify-content-between mb-3"
                 v-for="dependency in app.dependencies"
                 :key="dependency"
+                class="d-flex align-items-center justify-content-between mb-3"
               >
                 <div class="d-flex align-items-center">
                   <img
@@ -206,14 +211,18 @@ import { mapState } from "vuex";
 
 import delay from "@/helpers/delay";
 
-import CardWidget from "@/components/CardWidget";
-import InputCopy from "@/components/Utility/InputCopy";
+import CardWidget from "@/components/CardWidget.vue";
+import InputCopy from "@/components/Utility/InputCopy.vue";
 
 export default {
+  components: {
+    CardWidget,
+    InputCopy,
+  },
   data() {
     return {
       isOffline: false,
-      checkIfAppIsOffline: true
+      checkIfAppIsOffline: true,
     };
   },
   computed: {
@@ -256,6 +265,15 @@ export default {
       }
     },
   },
+  async created() {
+    await this.$store.dispatch("apps/getAppStore");
+    if (this.isInstalled) {
+      this.pollOfflineApp();
+    }
+  },
+  beforeUnmount() {
+    this.checkIfAppIsOffline = false;
+  },
   methods: {
     formatDependency(dependency) {
       let name;
@@ -276,7 +294,9 @@ export default {
     openApp(event) {
       if (this.app.torOnly && window.location.origin.indexOf(".onion") < 0) {
         event.preventDefault();
-        alert(`${this.app.name} can only be used over Tor. Please access your Umbrel in a Tor browser on your remote access URL (Settings > Tor > Remote Access URL) to open this app.`);
+        alert(
+          `${this.app.name} can only be used over Tor. Please access your Umbrel in a Tor browser on your remote access URL (Settings > Tor > Remote Access URL) to open this app.`
+        );
       }
       return;
     },
@@ -284,7 +304,7 @@ export default {
       this.checkIfAppIsOffline = true;
       while (this.checkIfAppIsOffline) {
         try {
-          await window.fetch(this.url, {mode: "no-cors" });
+          await window.fetch(this.url, { mode: "no-cors" });
           this.isOffline = false;
           this.checkIfAppIsOffline = false;
         } catch (error) {
@@ -292,23 +312,9 @@ export default {
         }
         await delay(1000);
       }
-    }
-  },
-  async created() {
-    await this.$store.dispatch("apps/getAppStore");
-    if (this.isInstalled) {
-      this.pollOfflineApp();
-    }
-  },
-  beforeDestroy() {
-    this.checkIfAppIsOffline = false;
-  },
-  components: {
-    CardWidget,
-    InputCopy,
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

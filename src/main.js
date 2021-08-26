@@ -1,5 +1,6 @@
-import Vue from "vue";
-import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
+import { createApp } from "vue";
+import VueConfetti from "vue-confetti";
+import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue-3";
 
 import App from "./App.vue";
 import router from "./router";
@@ -7,60 +8,56 @@ import store from "./store";
 
 import { satsToBtc } from "@/helpers/units";
 
-// import "@/global-styles/designsystem.scss";
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
+const app = createApp({
+  render: () => h(App),
+});
 
-Vue.use(BootstrapVue);
-Vue.use(BootstrapVueIcons);
+app.use(BootstrapVue);
+app.use(BootstrapVueIcons);
+app.use(VueConfetti);
+app.use(router);
+app.use(store);
 
-//transforms a number to sats or btc based on store
-Vue.filter("unit", value => {
-  if (store.state.system.unit === "sats") {
+app.config.globalProperties.$filters = {
+  unit(value) {
+    if (store.state.system.unit === "sats") {
+      return Number(value);
+    } else if (store.state.system.unit === "btc") {
+      return satsToBtc(value);
+    }
+  },
+  sats(value) {
     return Number(value);
-  } else if (store.state.system.unit === "btc") {
+  },
+  btc(value) {
     return satsToBtc(value);
-  }
-});
-
-//transforms a number to sats
-Vue.filter("sats", value => Number(value));
-
-//transforms a number to btc
-Vue.filter("btc", value => satsToBtc(value));
-
-//formats the unit
-Vue.filter("formatUnit", unit => {
-  if (unit === "sats") {
-    return "Sats";
-  } else if (unit === "btc") {
-    return "BTC";
-  }
-});
-
-//transforms sats to usd
-Vue.filter("satsToUSD", value => {
-  if (isNaN(parseInt(value))) {
-    return value;
-  } else {
-    return (
-      "$" +
-      Number(
-        (satsToBtc(value) * store.state.bitcoin.price).toFixed(2)
-      ).toLocaleString()
-    );
-  }
-});
-
-//Localized number (comma, seperator, spaces, etc)
-Vue.filter("localize", n =>
-  Number(n).toLocaleString(undefined, { maximumFractionDigits: 8 })
-);
-
-Vue.config.productionTip = false;
+  },
+  formatUnit(value) {
+    if (unit === "sats") {
+      return "Sats";
+    } else if (unit === "btc") {
+      return "BTC";
+    }
+  },
+  satsToUSD(value) {
+    if (isNaN(parseInt(value))) {
+      return value;
+    } else {
+      return (
+        "$" +
+        Number(
+          (satsToBtc(value) * store.state.bitcoin.price).toFixed(2)
+        ).toLocaleString()
+      );
+    }
+  },
+  localize(n) {
+    return Number(n).toLocaleString(undefined, { maximumFractionDigits: 8 });
+  },
+};
 
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

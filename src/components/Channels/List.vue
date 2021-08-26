@@ -2,9 +2,9 @@
   <div class="channel-list-container">
     <div class="channel-list">
       <div
+        v-if="channels.length === 0"
         class="d-flex align-items-center justify-content-center flex-column"
         style="height: 100%"
-        v-if="channels.length === 0"
       >
         <p class="text-muted w-75 text-center">
           You need to open payment channels with other nodes to transact on the
@@ -15,14 +15,14 @@
       </div>
 
       <div
+        v-else-if="channels[0]['type'] === 'loading'"
         class="d-flex align-items-center justify-content-center"
         style="height: 100%"
-        v-else-if="channels[0]['type'] === 'loading'"
       >
         <b-spinner class="mb-4" variant="dark"></b-spinner>
       </div>
 
-      <transition-group name="list" appear v-else>
+      <transition-group v-else name="list" appear>
         <div
           v-for="channel in channels"
           :key="channel.channelPoint"
@@ -37,24 +37,24 @@
 
 <script>
 import { mapState } from "vuex";
-import Channel from "@/components/Channels/Channel";
+import Channel from "@/components/Channels/Channel.vue";
 
 export default {
-  props: {},
-  computed: {
-    ...mapState({
-      channels: (state) => state.lightning.channels,
-    }),
+  components: {
+    Channel,
   },
+  emits: ["selectchannel"],
   data() {
     return {
       state: {},
     };
   },
-  methods: {},
-  components: {
-    Channel,
+  computed: {
+    ...mapState({
+      channels: (state) => state.lightning.channels,
+    }),
   },
+  methods: {},
 };
 </script>
 

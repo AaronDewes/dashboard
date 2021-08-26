@@ -14,15 +14,15 @@
       <div class="d-flex flex-wrap justify-content-start apps-container">
         <installed-app
           v-for="app in installedApps"
-          :key="app.id"
           :id="app.id"
+          :key="app.id"
           :name="app.name"
           :port="app.port"
           :path="app.path"
-          :hiddenService="app.hiddenService"
-          :torOnly="app.torOnly"
-          :showUninstallButton="isEditing"
-          :isUninstalling="uninstallingApps.includes(app.id)"
+          :hidden-service="app.hiddenService"
+          :tor-only="app.torOnly"
+          :show-uninstall-button="isEditing"
+          :is-uninstalling="uninstallingApps.includes(app.id)"
         >
         </installed-app>
       </div>
@@ -31,7 +31,14 @@
       <div class="my-3 pb-3">
         <h1>apps</h1>
         <div
-          class="d-flex flex-column justify-content-center align-items-center py-5 mb-lg-5"
+          class="
+            d-flex
+            flex-column
+            justify-content-center
+            align-items-center
+            py-5
+            mb-lg-5
+          "
         >
           <p class="text-muted mb-2">You don't have any apps installed yet</p>
           <b-button variant="success" class="px-4" :to="'app-store'"
@@ -46,9 +53,12 @@
 <script>
 import { mapState } from "vuex";
 
-import InstalledApp from "@/components/InstalledApp";
+import InstalledApp from "@/components/InstalledApp.vue";
 
 export default {
+  components: {
+    InstalledApp,
+  },
   data() {
     return {
       isEditing: false,
@@ -67,9 +77,6 @@ export default {
     toggleEdit() {
       this.isEditing = !this.isEditing;
     },
-  },
-  components: {
-    InstalledApp,
   },
 };
 </script>

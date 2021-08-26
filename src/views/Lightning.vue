@@ -21,11 +21,7 @@
             <small class="ml-1 text-success">{{ status }}</small>
             <h3 class="d-block font-weight-bold mb-1">Lightning Network</h3>
             <span class="d-block text-muted">
-              {{
-                this.lndVersion
-                  ? `v${this.lndVersion.split(" commit")[0]}`
-                  : "..."
-              }}
+              {{ lndVersion ? `v${lndVersion.split(" commit")[0]}` : "..." }}
             </span>
           </div>
         </div>
@@ -36,7 +32,7 @@
             no-caret
             right
           >
-            <template v-slot:button-content>
+            <template #button-content>
               <svg
                 width="18"
                 height="4"
@@ -64,7 +60,7 @@
                 />
               </svg>
             </template>
-            <b-dropdown-item href="#" v-b-modal.lightning-address-modal
+            <b-dropdown-item v-b-modal.lightning-address-modal href="#"
               >Lightning Address</b-dropdown-item
             >
             <!-- <b-dropdown-divider /> -->
@@ -72,7 +68,7 @@
           </b-dropdown>
 
           <b-modal id="lightning-address-modal" size="lg" centered hide-footer>
-            <template v-slot:modal-header="{ close }">
+            <template #modal-header="{ close }">
               <div
                 class="px-2 px-sm-3 pt-2 d-flex justify-content-between w-100"
               >
@@ -81,7 +77,7 @@
                 <a
                   href="#"
                   class="align-self-center"
-                  v-on:click.stop.prevent="close"
+                  @click.stop.prevent="close"
                 >
                   <svg
                     width="18"
@@ -107,7 +103,7 @@
                   :value="uris.length ? uris[0] : pubkey"
                   :size="180"
                   class="qr-image mx-auto"
-                  showLogo
+                  show-logo
                 ></qr-code>
                 <div class="w-100 align-self-center ml-3 ml-sm-4">
                   <p>
@@ -116,17 +112,17 @@
                   </p>
                   <div v-if="uris.length">
                     <input-copy
+                      v-for="uri in uris"
+                      :key="uri"
                       class="mb-2"
                       size="sm"
-                      v-for="uri in uris"
                       :value="uri"
-                      :key="uri"
                     ></input-copy>
                   </div>
                   <span
-                    class="loading-placeholder loading-placeholder-lg mt-1"
-                    style="width: 100%;"
                     v-else
+                    class="loading-placeholder loading-placeholder-lg mt-1"
+                    style="width: 100%"
                   ></span>
                 </div>
               </div>
@@ -141,15 +137,15 @@
       </b-col>
       <b-col col cols="12" md="6" xl="8">
         <card-widget header="Payment Channels">
-          <template v-slot:header-right>
+          <template #header-right>
             <b-button
+              v-b-modal.open-channel-modal
               variant="outline-primary"
               size="sm"
-              v-b-modal.open-channel-modal
               >+ Open Channel</b-button
             >
           </template>
-          <template v-slot:menu>
+          <template #menu>
             <b-dropdown-item
               href="#"
               @click.stop.prevent="downloadChannelBackup"
@@ -159,26 +155,31 @@
             <b-dropdown-group>
               <div class="dropdown-group">
                 <div class="d-flex w-100 justify-content-between">
-                <div>
-                  <span class="d-block">Automatic backups</span>
-                  <small class="d-block">
-                    <a
-                      href="https://github.com/getumbrel/umbrel/blob/master/scripts/backup/README.md"
-                      target="blank"
-                    >Learn more</a>
-                  </small>
+                  <div>
+                    <span class="d-block">Automatic backups</span>
+                    <small class="d-block">
+                      <a
+                        href="https://github.com/getumbrel/umbrel/blob/master/scripts/backup/README.md"
+                        target="blank"
+                        >Learn more</a
+                      >
+                    </small>
+                  </div>
+                  <toggle-switch
+                    class="align-self-center"
+                    disabled
+                    tooltip="Sorry, automatic backups cannot be disabled for now"
+                  ></toggle-switch>
                 </div>
-                <toggle-switch
-                  class="align-self-center"
-                  disabled
-                  tooltip="Sorry, automatic backups cannot be disabled for now"
-                ></toggle-switch>
-              </div>
-              <small v-if="backupStatus.status" class="d-block mt-2" style="opacity: 0.4">
+                <small
+                  v-if="backupStatus.status"
+                  class="d-block mt-2"
+                  style="opacity: 0.4"
+                >
                   Last backup
-                <span v-if="backupStatus.status === 'failed'">failed</span>
-                at {{ getReadableTime(backupStatus.timestamp) }}
-              </small>
+                  <span v-if="backupStatus.status === 'failed'">failed</span>
+                  at {{ getReadableTime(backupStatus.timestamp) }}
+                </small>
               </div>
             </b-dropdown-group>
           </template>
@@ -190,7 +191,7 @@
                     title="Connections"
                     :value="numPeers"
                     suffix="Peers"
-                    showNumericChange
+                    show-numeric-change
                   ></stat>
                 </b-col>
                 <b-col col cols="6" xl="3">
@@ -198,25 +199,25 @@
                     title="Active Channels"
                     :value="numActiveChannels"
                     suffix="Channels"
-                    showNumericChange
+                    show-numeric-change
                   ></stat>
                 </b-col>
                 <b-col col cols="6" xl="3">
                   <stat
                     title="Max Send"
-                    :value="maxSend | unit"
-                    :suffix="unit | formatUnit"
-                    :hasDecimals="unit === 'btc'"
-                    abbreviateValue
+                    :value="$filters.unit(maxSend)"
+                    :suffix="$filters.formatUnit(unit)"
+                    :has-decimals="unit === 'btc'"
+                    abbreviate-value
                   ></stat>
                 </b-col>
                 <b-col col cols="6" xl="3">
                   <stat
                     title="Max Receive"
-                    :value="maxReceive | unit"
-                    :suffix="unit | formatUnit"
-                    :hasDecimals="unit === 'btc'"
-                    abbreviateValue
+                    :value="$filters.unit(maxReceive)"
+                    :suffix="$filters.formatUnit(unit)"
+                    :has-decimals="unit === 'btc'"
+                    abbreviate-value
                   ></stat>
                 </b-col>
               </b-row>
@@ -229,7 +230,7 @@
               centered
               hide-footer
             >
-              <template v-slot:modal-header="{ close }">
+              <template #modal-header="{ close }">
                 <div
                   class="px-2 px-sm-3 pt-2 d-flex justify-content-between w-100"
                 >
@@ -238,7 +239,7 @@
                   <a
                     href="#"
                     class="align-self-center"
-                    v-on:click.stop.prevent="close"
+                    @click.stop.prevent="close"
                   >
                     <svg
                       width="18"
@@ -258,7 +259,7 @@
                 </div>
               </template>
               <div class="px-2 px-sm-3 py-2">
-                <channel-open v-on:channelopen="onChannelOpen"></channel-open>
+                <channel-open @channelopen="onChannelOpen"></channel-open>
               </div>
             </b-modal>
 
@@ -270,7 +271,7 @@
               centered
               hide-footer
             >
-              <template v-slot:modal-header="{ close }">
+              <template #modal-header="{ close }">
                 <div
                   class="px-2 px-sm-3 pt-2 d-flex justify-content-between w-100"
                 >
@@ -279,7 +280,7 @@
                   <a
                     href="#"
                     class="align-self-center"
-                    v-on:click.stop.prevent="close"
+                    @click.stop.prevent="close"
                   >
                     <svg
                       width="18"
@@ -301,12 +302,12 @@
               <div class="px-2 px-sm-3 py-2">
                 <channel-manage
                   :channel="selectedChannel"
-                  v-on:channelclose="onChannelClose"
+                  @channelclose="onChannelClose"
                 ></channel-manage>
               </div>
             </b-modal>
 
-            <channel-list v-on:selectchannel="manageChannel"></channel-list>
+            <channel-list @selectchannel="manageChannel"></channel-list>
           </div>
         </card-widget>
       </b-col>
@@ -320,38 +321,63 @@ import moment from "moment";
 
 import API from "@/helpers/api";
 
-import CardWidget from "@/components/CardWidget";
-import Stat from "@/components/Utility/Stat";
-import LightningWallet from "@/components/LightningWallet";
-import QrCode from "@/components/Utility/QrCode";
-import InputCopy from "@/components/Utility/InputCopy";
-import ToggleSwitch from "@/components/ToggleSwitch";
-import ChannelList from "@/components/Channels/List";
-import ChannelOpen from "@/components/Channels/Open";
-import ChannelManage from "@/components/Channels/Manage";
+import CardWidget from "@/components/CardWidget.vue";
+import Stat from "@/components/Utility/Stat.vue";
+import LightningWallet from "@/components/LightningWallet.vue";
+import QrCode from "@/components/Utility/QrCode.vue";
+import InputCopy from "@/components/Utility/InputCopy.vue";
+import ToggleSwitch from "@/components/ToggleSwitch.vue";
+import ChannelList from "@/components/Channels/List.vue";
+import ChannelOpen from "@/components/Channels/Open.vue";
+import ChannelManage from "@/components/Channels/Manage.vue";
 
 export default {
+  components: {
+    LightningWallet,
+    CardWidget,
+    Stat,
+    QrCode,
+    InputCopy,
+    ToggleSwitch,
+    ChannelList,
+    ChannelOpen,
+    ChannelManage,
+  },
   data() {
     return {
       status: "Running",
-      selectedChannel: {}
+      selectedChannel: {},
     };
   },
   computed: {
     ...mapState({
-      lndVersion: state => state.lightning.version,
-      numActiveChannels: state => state.lightning.numActiveChannels,
-      maxReceive: state => state.lightning.maxReceive,
-      maxSend: state => state.lightning.maxSend,
-      numPeers: state => state.lightning.numPeers,
-      alias: state => state.lightning.alias,
-      pubkey: state => state.lightning.pubkey,
-      uris: state => state.lightning.uris,
-      lndConnectUrls: state => state.lightning.lndConnectUrls,
-      channels: state => state.lightning.channels,
-      unit: state => state.system.unit,
-      backupStatus: state => state.system.backupStatus,
-    })
+      lndVersion: (state) => state.lightning.version,
+      numActiveChannels: (state) => state.lightning.numActiveChannels,
+      maxReceive: (state) => state.lightning.maxReceive,
+      maxSend: (state) => state.lightning.maxSend,
+      numPeers: (state) => state.lightning.numPeers,
+      alias: (state) => state.lightning.alias,
+      pubkey: (state) => state.lightning.pubkey,
+      uris: (state) => state.lightning.uris,
+      lndConnectUrls: (state) => state.lightning.lndConnectUrls,
+      channels: (state) => state.lightning.channels,
+      unit: (state) => state.system.unit,
+      backupStatus: (state) => state.system.backupStatus,
+    }),
+  },
+  watch: {
+    password: function () {
+      this.isIncorrectPassword = false;
+    },
+  },
+  created() {
+    this.fetchPageData();
+    this.$store.dispatch("lightning/getLndConnectUrls");
+    this.$store.dispatch("system/getBackupStatus");
+    this.interval = window.setInterval(this.fetchPageData, 10000);
+  },
+  beforeUnmount() {
+    window.clearInterval(this.interval);
   },
   methods: {
     getReadableTime(timestamp) {
@@ -391,33 +417,8 @@ export default {
     },
     fetchPageData() {
       this.$store.dispatch("lightning/getLndPageData");
-    }
+    },
   },
-  created() {
-    this.fetchPageData();
-    this.$store.dispatch("lightning/getLndConnectUrls");
-    this.$store.dispatch("system/getBackupStatus");
-    this.interval = window.setInterval(this.fetchPageData, 10000);
-  },
-  beforeDestroy() {
-    window.clearInterval(this.interval);
-  },
-  watch: {
-    password: function() {
-      this.isIncorrectPassword = false;
-    }
-  },
-  components: {
-    LightningWallet,
-    CardWidget,
-    Stat,
-    QrCode,
-    InputCopy,
-    ToggleSwitch,
-    ChannelList,
-    ChannelOpen,
-    ChannelManage
-  }
 };
 </script>
 

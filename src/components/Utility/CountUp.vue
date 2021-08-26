@@ -8,7 +8,7 @@
 
 <script>
 import { CountUp } from "countup.js";
-const typeOf = type => object =>
+const typeOf = (type) => (object) =>
   Object.prototype.toString.call(object) === `[object ${type}]`;
 const isFunction = typeOf("Function");
 export default {
@@ -16,39 +16,62 @@ export default {
     delay: {
       type: Number,
       required: false,
-      default: 0
+      default: 0,
     },
     value: {
       type: Object,
-      required: true
+      required: true,
     },
     options: {
       type: Object,
-      required: false
+      required: false,
+      default: () => {
+        return {
+          decimalPlaces: 0,
+          startVal: 0,
+        };
+      },
     },
     suffix: {
       type: String,
       required: false,
-      default: ""
+      default: "",
     },
     countOnLoad: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
+  emits: ["ready"],
   data() {
     return {
       startVal: 0,
       instance: null,
-      firstLoad: true //used to decide if animate/count on the first mount
+      firstLoad: true, //used to decide if animate/count on the first mount
     };
   },
   computed: {},
+  watch: {
+    value: {
+      handler(newVal, oldVal) {
+        if (newVal.decimalPlaces !== oldVal.decimalPlaces) {
+          this.destroy();
+          this.startVal = 0;
+          this.create();
+        } else {
+          if (newVal.endVal !== oldVal.endVal) {
+            this.update(newVal.endVal);
+          }
+        }
+      },
+      deep: true,
+    },
+  },
   mounted() {
     const that = this;
     that.create();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     const that = this;
     that.destroy();
   },
@@ -120,25 +143,8 @@ export default {
       if (that.instance && isFunction(that.instance.update)) {
         return that.instance.update(newEndVal);
       }
-    }
+    },
   },
-  watch: {
-    value: {
-      handler(newVal, oldVal) {
-        if (newVal.decimalPlaces !== oldVal.decimalPlaces) {
-          this.destroy();
-          this.startVal = 0;
-          this.create();
-        } else {
-          if (newVal.endVal !== oldVal.endVal) {
-            this.update(newVal.endVal);
-          }
-        }
-      },
-      deep: true
-    }
-  },
-  components: {}
 };
 </script>
 

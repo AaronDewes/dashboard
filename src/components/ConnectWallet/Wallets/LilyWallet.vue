@@ -71,22 +71,25 @@
 </template>
 
 <script>
-import ConnectionDetails from "@/components/ConnectWallet/ConnectionDetails";
-import StepList from "@/components/ConnectWallet/StepList";
-import Step from "@/components/ConnectWallet/Step";
+import ConnectionDetails from "@/components/ConnectWallet/ConnectionDetails.vue";
+import StepList from "@/components/ConnectWallet/StepList.vue";
+import Step from "@/components/ConnectWallet/Step.vue";
 import TorSetup from "@/components/ConnectWallet/TorSetup.vue";
-import InputCopy from "@/components/Utility/InputCopy";
+import InputCopy from "@/components/Utility/InputCopy.vue";
 
 export default {
-  props: {
-    urls: Object,
-  },
   components: {
     ConnectionDetails,
     StepList,
     Step,
     InputCopy,
     TorSetup,
+  },
+  props: {
+    urls: {
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>

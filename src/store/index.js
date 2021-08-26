@@ -1,5 +1,4 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { createStore } from "vuex";
 
 //Modules
 import user from "./modules/user";
@@ -8,18 +7,16 @@ import bitcoin from "./modules/bitcoin";
 import lightning from "./modules/lightning";
 import apps from "./modules/apps";
 
-Vue.use(Vuex);
-
 // Initial State
 const state = {
-  isMobileMenuOpen: true
+  isMobileMenuOpen: true,
 };
 
 // Getters
 const getters = {
   isMobileMenuOpen(state) {
     return state.isMobileMenuOpen;
-  }
+  },
 };
 
 // Mutations
@@ -33,17 +30,17 @@ const mutations = {
       document.body.style.overflow = "auto";
       state.isMobileMenuOpen = false;
     }
-  }
+  },
 };
 
 // Actions
 const actions = {
   toggleMobileMenu(context) {
     context.commit("toggleMobileMenu");
-  }
+  },
 };
 
-export default new Vuex.Store({
+export default createStore({
   state,
   mutations,
   actions,
@@ -53,6 +50,6 @@ export default new Vuex.Store({
     system,
     bitcoin,
     lightning,
-    apps
-  }
+    apps,
+  },
 });

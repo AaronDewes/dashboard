@@ -12,26 +12,26 @@
         <small class="text-muted">Custom</small>
       </b-form-checkbox>
     </div>
-    <div class="vue-slider-container" v-if="useCustomFee">
+    <div v-if="useCustomFee" class="vue-slider-container">
       <vue-slider
+        key="custom-fee"
         v-model="customFee"
         :marks="false"
         hide-label
         :min="customMinFee"
         :max="customMaxFee"
         :interval="1"
-        :dotSize="[22, 22]"
+        :dot-size="[22, 22]"
         contained
         :tooltip="isDisabled ? 'none' : 'always'"
         :disabled="isDisabled"
         @change="emitValue"
-        key="custom-fee"
       >
-        <template v-slot:tooltip="{ value, focus }">
+        <template #tooltip="{ value, focus }">
           <div
             :class="[
               'vue-slider-dot-tooltip-inner vue-slider-dot-tooltip-inner-top',
-              { focus }
+              { focus },
             ]"
           >
             <span class="vue-slider-dot-tooltip-text d-block"
@@ -40,10 +40,11 @@
             <small class="text-muted"
               >≈
               {{
-                ((parseInt(fee.fast.total, 10) /
-                  parseInt(fee.fast.perByte, 10)) *
-                  value)
-                  | satsToUSD
+                $filters.satsToUSD(
+                  (parseInt(fee.fast.total, 10) /
+                    parseInt(fee.fast.perByte, 10)) *
+                    value
+                )
               }}</small
             >
           </div>
@@ -54,36 +55,36 @@
         <small class="text-muted mb-0">Fast</small>
       </div>
     </div>
-    <div class="vue-slider-container" v-else>
+    <div v-else class="vue-slider-container">
       <vue-slider
+        key="recommended-fee"
         v-model="chosenFee"
         absorb
         marks
         :data="recommendedFees"
-        :dotSize="[22, 22]"
+        :dot-size="[22, 22]"
         contained
         :tooltip="isDisabled ? 'none' : 'always'"
         :disabled="isDisabled"
         @change="emitValue"
-        key="recommended-fee"
       >
-        <template v-slot:label="{ active, value }">
+        <template #label="{ active, value }">
           <div :class="['vue-slider-mark-label', 'text-center', { active }]">
             <span class="text-muted">~ {{ timeToConfirm(value) }}</span>
           </div>
         </template>
-        <template v-slot:tooltip="{ value, focus }">
+        <template #tooltip="{ value, focus }">
           <div
             :class="[
               'vue-slider-dot-tooltip-inner vue-slider-dot-tooltip-inner-top',
-              { focus }
+              { focus },
             ]"
           >
             <span class="vue-slider-dot-tooltip-text d-block mb-0"
               >{{ fee[value].perByte }} sat/vB
             </span>
             <small class="text-muted"
-              >≈ {{ fee[value].total | satsToUSD }}</small
+              >≈ {{ $filters.satsToUSD(fee[value].total) }}</small
             >
           </div>
         </template>
@@ -97,26 +98,33 @@ import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
 
 export default {
+  components: {
+    VueSlider,
+  },
   props: {
-    fee: Object,
+    fee: {
+      type: Object,
+      required: true,
+    },
     customMinFee: {
       type: Number,
-      default: 1
+      default: 1,
     },
     customMaxFee: {
       type: Number,
-      default: 350
+      default: 350,
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
+  emits: ["change"],
   data() {
     return {
       chosenFee: "normal",
       useCustomFee: false,
-      customFee: 30
+      customFee: 30,
     };
   },
   computed: {
@@ -146,20 +154,28 @@ export default {
         intervals.push("fast");
       }
       return intervals;
-    }
+    },
+  },
+  watch: {
+    useCustomFee: function () {
+      this.emitValue();
+    },
+    "fee.fast.total": function () {
+      this.emitValue();
+    },
   },
   methods: {
     emitValue() {
       if (this.useCustomFee) {
         const fee = {
           type: "custom",
-          satPerByte: parseInt(this.customFee, 10)
+          satPerByte: parseInt(this.customFee, 10),
         };
         this.$emit("change", fee);
       } else {
         const fee = {
           type: this.chosenFee,
-          satPerByte: parseInt(this.fee[this.chosenFee].perByte, 10)
+          satPerByte: parseInt(this.fee[this.chosenFee].perByte, 10),
         };
         this.$emit("change", fee);
       }
@@ -177,19 +193,8 @@ export default {
       if (fee === "cheapest") {
         return "24 hrs";
       }
-    }
-  },
-  watch: {
-    useCustomFee: function() {
-      this.emitValue();
     },
-    "fee.fast.total": function() {
-      this.emitValue();
-    }
   },
-  components: {
-    VueSlider
-  }
 };
 </script>
 
@@ -220,7 +225,8 @@ $stepBgColor: rgba(0, 0, 0, 0.1) !default;
 $labelFontSize: 0.8rem;
 
 /* import theme style */
-@import "~vue-slider-component/lib/theme/default.scss";
+// Hack to get the correct import path with Vite
+@import "node_modules/vue-slider-component/lib/theme/default";
 
 .vue-slider-container {
   padding-top: 3rem;
@@ -234,9 +240,11 @@ $labelFontSize: 0.8rem;
   margin-top: 1rem;
 }
 
+/*
 .vue-slider-dot {
-  //   transition: left 0.5s cubic-bezier(0.77, 0, 0.175, 1) !important;
+  transition: left 0.5s cubic-bezier(0.77, 0, 0.175, 1) !important;
 }
+*/
 
 .vue-slider-dot-handle {
   transition: box-shadow 0.2s, background-color 0.2s ease;
@@ -261,9 +269,11 @@ $labelFontSize: 0.8rem;
 .vue-slider-dot-handle-disabled {
   box-shadow: none;
 }
+/*
 .vue-slider-mark-label {
-  //   text-transform: capitalize;
+  text-transform: capitalize;
 }
+*/
 .vue-slider-ltr {
   .vue-slider-mark:first-child {
     .vue-slider-mark-label,

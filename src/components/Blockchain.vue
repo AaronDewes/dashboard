@@ -3,12 +3,17 @@
     <div class="blockchain-container">
       <div v-if="blocks.length">
         <!-- transitions for blocks -->
-        <transition-group name="blockchain" mode="out-in" tag="ul" :duration="5000">
+        <transition-group
+          name="blockchain"
+          mode="out-in"
+          tag="ul"
+          :duration="5000"
+        >
           <li
-            href="#"
-            class="flex-column align-items-start px-3 px-lg-4 blockchain-block"
             v-for="block in blocks"
             :key="block.height"
+            href="#"
+            class="flex-column align-items-start px-3 px-lg-4 blockchain-block"
           >
             <div class="d-flex w-100 justify-content-between">
               <div class="d-flex">
@@ -38,12 +43,12 @@
                   <div class="blockchain-block-icon-bg"></div>
                 </div>
                 <div class="align-self-center">
-                  <h6 class="mb-1 font-weight-normal">Block {{ block.height.toLocaleString() }}</h6>
-                  <small class="text-muted" v-if="block.numTransactions">
-                    {{
-                    block.numTransactions.toLocaleString()
-                    }}
-                    transaction{{ block.numTransactions !== 1 ? 's' : '' }}
+                  <h6 class="mb-1 font-weight-normal">
+                    Block {{ block.height.toLocaleString() }}
+                  </h6>
+                  <small v-if="block.numTransactions" class="text-muted">
+                    {{ block.numTransactions.toLocaleString() }}
+                    transaction{{ block.numTransactions !== 1 ? "s" : "" }}
                   </small>
                   <!-- <small class="text-muted" v-if="block.size">
                     <span>&bull; {{ Math.round(block.size / 1000) }} KB</span>
@@ -51,10 +56,16 @@
                 </div>
               </div>
               <small
-                class="text-muted align-self-center text-right blockchain-block-timestamp"
                 v-if="block.time"
+                class="
+                  text-muted
+                  align-self-center
+                  text-right
+                  blockchain-block-timestamp
+                "
                 :title="blockReadableTime(block.time)"
-              >{{ blockTime(block.time) }}</small>
+                >{{ blockTime(block.time) }}</small
+              >
             </div>
           </li>
         </transition-group>
@@ -62,14 +73,16 @@
       <div v-else>
         <ul>
           <li
-            href="#"
-            class="flex-column align-items-start px-3 px-lg-4 blockchain-block"
             v-for="(fake, index) in [1, 2, 3]"
             :key="index"
+            href="#"
+            class="flex-column align-items-start px-3 px-lg-4 blockchain-block"
           >
             <div class="d-flex w-100 justify-content-between">
               <div class="d-flex">
-                <div class="blockchain-block-icon blockchain-block-icon-loading">
+                <div
+                  class="blockchain-block-icon blockchain-block-icon-loading"
+                >
                   <svg
                     width="28"
                     height="30"
@@ -95,7 +108,10 @@
                   <div class="blockchain-block-icon-bg"></div>
                 </div>
                 <div class="align-self-center">
-                  <span class="d-block loading-placeholder mb-1" style="width: 140px;"></span>
+                  <span
+                    class="d-block loading-placeholder mb-1"
+                    style="width: 140px"
+                  ></span>
                   <span
                     class="d-block loading-placeholder loading-placeholder-sm"
                     style="width: 80px"
@@ -103,7 +119,11 @@
                 </div>
               </div>
               <span
-                class="loading-placeholder loading-placeholder-sm align-self-center text-right"
+                class="
+                  loading-placeholder loading-placeholder-sm
+                  align-self-center
+                  text-right
+                "
                 style="width: 40px"
               ></span>
             </div>
@@ -119,17 +139,39 @@ import moment from "moment";
 import { mapState } from "vuex";
 
 export default {
+  props: {
+    numBlocks: {
+      type: Number,
+      default: 3,
+    },
+  },
   data() {
     return {
       polling: null,
-      pollInProgress: false
+      pollInProgress: false,
     };
   },
   computed: {
     ...mapState({
-      syncPercent: state => state.bitcoin.percent,
-      blocks: state => state.bitcoin.blocks
-    })
+      syncPercent: (state) => state.bitcoin.percent,
+      blocks: (state) => state.bitcoin.blocks,
+    }),
+  },
+  watch: {
+    syncPercent(newPercent) {
+      // reset polling time depending upon sync %
+      this.poller(newPercent);
+    },
+  },
+  created() {
+    //immediately fetch blocks on first load
+    this.fetchBlocks();
+
+    //then start polling
+    this.poller(this.syncPercent);
+  },
+  beforeUnmount() {
+    window.clearInterval(this.polling);
   },
   methods: {
     async fetchBlocks() {
@@ -165,32 +207,8 @@ export default {
     },
     blockReadableTime(timestamp) {
       return moment(timestamp * 1000).format("MMMM D, h:mm:ss a");
-    }
+    },
   },
-  created() {
-    //immediately fetch blocks on first load
-    this.fetchBlocks();
-
-    //then start polling
-    this.poller(this.syncPercent);
-  },
-  watch: {
-    syncPercent(newPercent) {
-      // reset polling time depending upon sync %
-      this.poller(newPercent);
-    }
-  },
-  beforeDestroy() {
-    window.clearInterval(this.polling);
-  },
-  props: {
-    numBlocks: {
-      type: Number,
-      default: 3
-    }
-  },
-
-  components: {}
 };
 </script>
 
@@ -426,9 +444,11 @@ export default {
   transform: translateY(2rem);
 }
 
+/*
 .blockchain-leave-active {
-  // position: absolute;
+  position: absolute;
 }
+*/
 
 @keyframes spin-cube {
   0% {

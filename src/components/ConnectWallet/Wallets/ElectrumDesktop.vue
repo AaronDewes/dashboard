@@ -6,14 +6,20 @@
         <b-link v-b-modal.tor-modal>Click here</b-link> for instructions.
       </step>
       <step>
-        Open Electrum Wallet and click the colored dot on the bottom right to open network settings.
+        Open Electrum Wallet and click the colored dot on the bottom right to
+        open network settings.
       </step>
       <step>
-        Uncheck <span class="font-weight-bold">"Select server automatically"</span>.
+        Uncheck
+        <span class="font-weight-bold">"Select server automatically"</span>.
       </step>
       <step>
         In the <span class="font-weight-bold">"Server"</span>, enter
-        <input-copy class="my-1" :value="`${urls.bitcoin.electrum.address}:${urls.bitcoin.electrum.port}:t`" auto-width></input-copy>
+        <input-copy
+          class="my-1"
+          :value="`${urls.bitcoin.electrum.address}:${urls.bitcoin.electrum.port}:t`"
+          auto-width
+        ></input-copy>
       </step>
       <step>
         Go to the <span class="font-weight-bold">"Proxy"</span> tab.
@@ -22,10 +28,12 @@
         Check <span class="font-weight-bold">"Use Tor proxy at port 9050"</span>
       </step>
       <step>
-        Click <span class="font-weight-bold">"Close"</span>. Wait for a few seconds and the dot at the bottom right should turn blue.
+        Click <span class="font-weight-bold">"Close"</span>. Wait for a few
+        seconds and the dot at the bottom right should turn blue.
       </step>
       <step>
-        Congratulations! You've successfully connected Electrum Wallet to your Umbrel.
+        Congratulations! You've successfully connected Electrum Wallet to your
+        Umbrel.
       </step>
     </step-list>
 
@@ -36,22 +44,25 @@
 </template>
 
 <script>
-import ConnectionDetails from "@/components/ConnectWallet/ConnectionDetails";
-import StepList from "@/components/ConnectWallet/StepList";
-import Step from "@/components/ConnectWallet/Step";
+import ConnectionDetails from "@/components/ConnectWallet/ConnectionDetails.vue";
+import StepList from "@/components/ConnectWallet/StepList.vue";
+import Step from "@/components/ConnectWallet/Step.vue";
 import TorSetup from "@/components/ConnectWallet/TorSetup.vue";
-import InputCopy from "@/components/Utility/InputCopy";
+import InputCopy from "@/components/Utility/InputCopy.vue";
 
 export default {
-  props: {
-    urls: Object
-  },
   components: {
     ConnectionDetails,
     StepList,
     Step,
     InputCopy,
-    TorSetup
-  }
+    TorSetup,
+  },
+  props: {
+    urls: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>

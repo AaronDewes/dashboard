@@ -3,21 +3,22 @@
     <!-- <span>Enter your password to view your 24-word seed phrase</span> -->
     <div v-if="!seed.length">
       <input-password
-        v-model="password"
         ref="password"
+        v-model="password"
         placeholder="Password"
-        inputGroupClass="neu-input-group"
-        :inputClass="[
-                    isIncorrectPassword ? 'incorrect-password' : '',
-                    'form-control form-control-lg neu-input w-100'
-                  ]"
+        input-group-class="neu-input-group"
+        :input-class="[
+          isIncorrectPassword ? 'incorrect-password' : '',
+          'form-control form-control-lg neu-input w-100',
+        ]"
         :disabled="isLoadingSeed"
       />
 
       <small
-        class="mt-2 text-danger error float-right"
         v-show="isIncorrectPassword"
-      >Incorrect password</small>
+        class="mt-2 text-danger error float-right"
+        >Incorrect password</small
+      >
 
       <b-button
         variant="success"
@@ -25,39 +26,40 @@
         :disabled="password && isLoadingSeed"
         @click="fetchSeed"
       >
-        {{
-        isLoadingSeed ? "Decrypting Secret Words..." : "View Secret Words"
-        }}
+        {{ isLoadingSeed ? "Decrypting Secret Words..." : "View Secret Words" }}
       </b-button>
     </div>
 
-    <div class="d-flex justify-content-center" v-else>
+    <div v-else class="d-flex justify-content-center">
       <!-- Seed phrase -->
-      <seed :words="seed" v-if="seed.length"></seed>
+      <seed v-if="seed.length" :words="seed"></seed>
       <b-spinner v-else></b-spinner>
     </div>
   </div>
 </template>
 
 <script>
-import InputPassword from "@/components/Utility/InputPassword";
-import Seed from "@/components/Utility/Seed";
+import InputPassword from "@/components/Utility/InputPassword.vue";
+import Seed from "@/components/Utility/Seed.vue";
 import { mapState } from "vuex";
 
 export default {
+  components: {
+    InputPassword,
+    Seed,
+  },
   data() {
     return {
       password: "",
       isIncorrectPassword: false,
-      isLoadingSeed: false
+      isLoadingSeed: false,
     };
   },
   computed: {
     ...mapState({
-      seed: state => state.user.seed
-    })
+      seed: (state) => state.user.seed,
+    }),
   },
-  props: { progress: Number },
   created() {},
   methods: {
     showSeed() {
@@ -77,14 +79,9 @@ export default {
         }
       }
       this.isLoadingSeed = false;
-    }
+    },
   },
-  components: {
-    InputPassword,
-    Seed
-  }
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

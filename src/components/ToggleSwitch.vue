@@ -1,16 +1,20 @@
 <template>
   <div
-    @click="toggle"
-    class="toggle"
-    :class="{ 'toggle-off': !state.isOn, 'toggle-on': state.isOn, 'toggle-disabled': disabled }"
     v-b-tooltip.hover.left
+    class="toggle"
+    :class="{
+      'toggle-off': !state.isOn,
+      'toggle-on': state.isOn,
+      'toggle-disabled': disabled,
+    }"
     :title="tooltip"
+    @click="toggle"
   >
     <div
       class="toggle-switch justify-content-center"
       :class="{
         'toggle-switch-off': !state.isOn,
-        'toggle-switch-on': state.isOn
+        'toggle-switch-on': state.isOn,
       }"
     ></div>
   </div>
@@ -18,11 +22,21 @@
 
 <script>
 export default {
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    tooltip: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
       state: {
-        isOn: true
-      }
+        isOn: true,
+      },
     };
   },
   computed: {},
@@ -32,18 +46,8 @@ export default {
         return;
       }
       this.state.isOn = !this.state.isOn;
-    }
-  },
-  props: {
-    disabled: {
-      type: Boolean,
-      default: false
     },
-    tooltip: {
-      type: String,
-      default: ""
-    }
-  }
+  },
 };
 </script>
 

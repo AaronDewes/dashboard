@@ -1,0 +1,14 @@
+root: true
+env:
+  node: true
+
+extends:
+  - "plugin:vue/vue3-recommended"
+  - "@vue/prettier"
+
+plugins:
+  - "vue"
+  - "prettier"
+
+parser: "vue-eslint-parser"
+

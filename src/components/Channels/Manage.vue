@@ -3,18 +3,20 @@
     <div class="mb-4">
       <div class="d-flex justify-content-between">
         <h4
-          class="text-primary font-weight-bold"
           v-b-tooltip.hover.right
-          :title="channel.localBalance | satsToUSD"
+          class="text-primary font-weight-bold"
+          :title="$filters.satsToUSD(channel.localBalance)"
         >
-          {{ channel.localBalance | unit | localize }} {{ unit | formatUnit }}
+          {{ $filters.localize($filters.unit(channel.localBalance)) }}
+          {{ $filters.formatUnit(unit) }}
         </h4>
         <h4
-          class="text-success font-weight-bold text-right"
           v-b-tooltip.hover.left
-          :title="channel.remoteBalance | satsToUSD"
+          class="text-success font-weight-bold text-right"
+          :title="$filters.satsToUSD(channel.remoteBalance)"
         >
-          {{ channel.remoteBalance | unit | localize }} {{ unit | formatUnit }}
+          {{ $filters.localize($filters.unit(channel.remoteBalance)) }}
+          {{ $filters.formatUnit(unit) }}
         </h4>
       </div>
       <bar
@@ -50,15 +52,15 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-muted">Remote Peer Alias</span>
           <div class="w-75 text-right">
-            <span class="font-weight-bold" style="overflow-wrap: break-word;">{{
+            <span class="font-weight-bold" style="overflow-wrap: break-word">{{
               channel.remoteAlias
             }}</span>
           </div>
         </div>
 
         <div
-          class="d-flex justify-content-between align-items-center mb-3"
           v-if="channel.status !== 'Closing'"
+          class="d-flex justify-content-between align-items-center mb-3"
         >
           <span class="text-muted">Opened By</span>
           <span class="text-capitalize font-weight-bold">{{
@@ -70,11 +72,11 @@
           <span class="text-muted">Local Balance</span>
           <span
             v-b-tooltip.hover.left
-            :title="channel.localBalance | satsToUSD"
+            :title="$filters.satsToUSD(channel.localBalance)"
             class="text-capitalize font-weight-bold"
           >
-            {{ channel.localBalance | unit | localize }}
-            {{ unit | formatUnit }}
+            {{ $filters.localize($filters.unit(channel.localBalance)) }}
+            {{ $filters.formatUnit(unit) }}
           </span>
         </div>
 
@@ -82,11 +84,11 @@
           <span class="text-muted">Remote Balance</span>
           <span
             v-b-tooltip.hover.left
-            :title="channel.remoteBalance | satsToUSD"
+            :title="$filters.satsToUSD(channel.remoteBalance)"
             class="text-capitalize font-weight-bold"
           >
-            {{ channel.remoteBalance | unit | localize }}
-            {{ unit | formatUnit }}
+            {{ $filters.localize($filters.unit(channel.remoteBalance)) }}
+            {{ $filters.formatUnit(unit) }}
           </span>
         </div>
 
@@ -94,17 +96,17 @@
           <span class="text-muted">Channel Capacity</span>
           <span
             v-b-tooltip.hover.left
-            :title="channel.capacity | satsToUSD"
+            :title="$filters.satsToUSD(channel.capacity)"
             class="text-capitalize font-weight-bold"
           >
-            {{ channel.capacity | unit | localize }}
-            {{ unit | formatUnit }}
+            {{ $filters.localize($filters.unit(channel.capacity)) }}
+            {{ $filters.formatUnit(unit) }}
           </span>
         </div>
 
         <div
-          class="d-flex justify-content-between align-items-center mb-3"
           v-if="channel.status === 'Online'"
+          class="d-flex justify-content-between align-items-center mb-3"
         >
           <span class="text-muted">Withdrawal Timelock</span>
           <span class="text-capitalize font-weight-bold"
@@ -113,28 +115,26 @@
         </div>
 
         <div
-          class="d-flex justify-content-between align-items-center mb-3"
           v-if="channel.status === 'Online'"
+          class="d-flex justify-content-between align-items-center mb-3"
         >
           <span class="text-muted">Commit Fee</span>
           <span class="text-capitalize font-weight-bold">
-            {{ channel.commitFee | unit | localize }}
-            {{ unit | formatUnit }}
+            {{ $filters.localize($filters.unit(channel.commitFee)) }}
+            {{ $filters.formatUnit(unit) }}
           </span>
         </div>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-muted">Remote Pub Key</span>
           <div class="w-75 text-right">
-            <small
-              class="font-weight-bold"
-              style="overflow-wrap: break-word;"
-              >{{ channel.remotePubkey }}</small
-            >
+            <small class="font-weight-bold" style="overflow-wrap: break-word">{{
+              channel.remotePubkey
+            }}</small>
           </div>
         </div>
 
-        <div class="d-flex justify-content-end" v-if="canCloseChannel">
+        <div v-if="canCloseChannel" class="d-flex justify-content-end">
           <b-button class="mt-2" variant="danger" @click="reviewChannelClose"
             >Close Channel</b-button
           >
@@ -159,8 +159,8 @@
           <b-button
             class="mt-2"
             variant="danger"
-            @click="confirmChannelClose"
             :disabled="isClosing"
+            @click="confirmChannelClose"
             >{{ isClosing ? "Closing Channel..." : "Confirm Close" }}</b-button
           >
         </div>
@@ -170,17 +170,24 @@
 </template>
 
 <script>
-import Bar from "@/components/Channels/Bar";
+import Bar from "@/components/Channels/Bar.vue";
 import API from "@/helpers/api";
 
 export default {
-  props: {
-    channel: Object
+  components: {
+    Bar,
   },
+  props: {
+    channel: {
+      type: Object,
+      required: true,
+    },
+  },
+  emits: ["channelclose"],
   data() {
     return {
       isReviewingChannelClose: false,
-      isClosing: false
+      isClosing: false,
     };
   },
   computed: {
@@ -195,7 +202,7 @@ export default {
         return false;
       }
       return true;
-    }
+    },
   },
   methods: {
     reviewChannelClose() {
@@ -207,7 +214,7 @@ export default {
       try {
         const payload = {
           channelPoint: this.channel.channelPoint,
-          force: !this.channel.active // Avoids force closing if channel is active
+          force: !this.channel.active, // Avoids force closing if channel is active
         };
         await API.delete(
           `${process.env.VUE_APP_MIDDLEWARE_API_URL}/v1/lnd/channel/close`,
@@ -220,7 +227,7 @@ export default {
             autoHideDelay: 3000,
             variant: "success",
             solid: true,
-            toaster: "b-toaster-bottom-right"
+            toaster: "b-toaster-bottom-right",
           });
         }, 200);
       } catch (err) {
@@ -231,16 +238,13 @@ export default {
             autoHideDelay: 3000,
             variant: "danger",
             solid: true,
-            toaster: "b-toaster-bottom-right"
+            toaster: "b-toaster-bottom-right",
           }
         );
       }
       this.isClosing = false;
-    }
+    },
   },
-  components: {
-    Bar
-  }
 };
 </script>
 

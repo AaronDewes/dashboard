@@ -2,20 +2,27 @@
   <connection-details name="BitBoxApp" requires="electrum">
     <step-list>
       <step>
-        Make sure Tor is up and running on your system. <b-link v-b-modal.tor-modal>Click here</b-link> for instructions.
+        Make sure Tor is up and running on your system.
+        <b-link v-b-modal.tor-modal>Click here</b-link> for instructions.
       </step>
       <step>
-        Open BitBoxApp and go to <span class="font-weight-bold">Settings > Enable tor proxy</span>.
+        Open BitBoxApp and go to
+        <span class="font-weight-bold">Settings > Enable tor proxy</span>.
       </step>
       <step>
-        Check <span class="font-weight-bold">"Enable tor proxy"</span> and enter:
+        Check <span class="font-weight-bold">"Enable tor proxy"</span> and
+        enter:
         <input-copy class="my-1" value="127.0.0.1:9050" auto-width></input-copy>
       </step>
       <step>
-        Click <span class="font-weight-bold">"Set proxy address"</span> and restart BitBoxApp.
+        Click <span class="font-weight-bold">"Set proxy address"</span> and
+        restart BitBoxApp.
       </step>
       <step>
-        Go to <span class="font-weight-bold">Settings > Connect your own full node</span>.
+        Go to
+        <span class="font-weight-bold"
+          >Settings > Connect your own full node</span
+        >.
       </step>
       <step>
         In the <span class="font-weight-bold">"Endpoint"</span>, enter
@@ -25,13 +32,15 @@
         ></input-copy>
       </step>
       <step>
-        Click <span class="font-weight-bold">"Check"</span> to verify if BitBoxApp is able to connect to your Umbrel.
+        Click <span class="font-weight-bold">"Check"</span> to verify if
+        BitBoxApp is able to connect to your Umbrel.
       </step>
       <step>
         Click <span class="font-weight-bold">"Add"</span> and restart BitBoxApp.
       </step>
       <step>
-        Congratulations! You have successfully connected BitBoxApp to your Umbrel.
+        Congratulations! You have successfully connected BitBoxApp to your
+        Umbrel.
       </step>
     </step-list>
 
@@ -42,22 +51,25 @@
 </template>
 
 <script>
-import ConnectionDetails from "@/components/ConnectWallet/ConnectionDetails";
-import StepList from "@/components/ConnectWallet/StepList";
-import Step from "@/components/ConnectWallet/Step";
+import ConnectionDetails from "@/components/ConnectWallet/ConnectionDetails.vue";
+import StepList from "@/components/ConnectWallet/StepList.vue";
+import Step from "@/components/ConnectWallet/Step.vue";
 import TorSetup from "@/components/ConnectWallet/TorSetup.vue";
-import InputCopy from "@/components/Utility/InputCopy";
+import InputCopy from "@/components/Utility/InputCopy.vue";
 
 export default {
-  props: {
-    urls: Object
-  },
   components: {
     ConnectionDetails,
     StepList,
     Step,
     InputCopy,
-    TorSetup
-  }
+    TorSetup,
+  },
+  props: {
+    urls: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>

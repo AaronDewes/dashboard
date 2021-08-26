@@ -26,18 +26,8 @@ body {
         fill: #6c757d;
     }
 }
-// .vh100 {
-//     min-height: 100vh;
-//     min-height: -webkit-fill-available;
-//     min-height: -moz-available;
-//     min-height: available; // not sure if exist in any browser
-//     min-height: -webkit-stretch; // not sure if exist in any browser
-//     min-height: -moz-stretch; // not sure if exist in any browser
-//     min-height: stretch;
-// }
 
 .min-vh100 {
-    min-height: 100vh; /* Fallback for browsers that do not support Custom Properties */
     min-height: var(--vh100, 100vh);
 }
 
@@ -80,11 +70,7 @@ a {
     border: none !important;
     outline: 0 !important;
     // Loading bar safari bug https://gist.github.com/ayamflow/b602ab436ac9f05660d9c15190f4fd7b
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
 }
 

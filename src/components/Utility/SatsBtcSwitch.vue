@@ -1,5 +1,5 @@
 <template>
-  <div @click="toggleUnit" class="toggle" :class="`toggle-${size}`">
+  <div class="toggle" :class="`toggle-${size}`" @click="toggleUnit">
     <div
       class="toggle-bg-text justify-content-center d-flex align-items-center"
     >
@@ -10,11 +10,11 @@
       class="toggle-switch justify-content-center d-flex align-items-center"
       :class="{
         'toggle-left': unit === 'sats',
-        'toggle-right': unit === 'btc'
+        'toggle-right': unit === 'btc',
       }"
     >
-      <span class="text-muted" v-if="unit === 'sats'">Sats</span>
-      <span class="text-muted" v-else-if="unit === 'btc'">BTC</span>
+      <span v-if="unit === 'sats'" class="text-muted">Sats</span>
+      <span v-else-if="unit === 'btc'" class="text-muted">BTC</span>
     </div>
   </div>
 </template>
@@ -24,8 +24,8 @@ export default {
   props: {
     size: {
       type: String, //sm, md, lg
-      default: "md"
-    }
+      default: "md",
+    },
   },
   data() {
     return {};
@@ -33,7 +33,7 @@ export default {
   computed: {
     unit() {
       return this.$store.state.system.unit;
-    }
+    },
   },
   methods: {
     toggleUnit() {
@@ -42,7 +42,7 @@ export default {
       } else if (this.unit === "btc") {
         this.$store.dispatch("system/changeUnit", "sats");
       }
-    }
-  }
+    },
+  },
 };
 </script>

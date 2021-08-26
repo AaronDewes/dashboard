@@ -8,39 +8,61 @@
       <b-spinner class="my-5"></b-spinner>
     </div>-->
 
-    <div class="d-flex flex-column align-items-center justify-content-center min-vh100 p-2">
+    <div
+      class="
+        d-flex
+        flex-column
+        align-items-center
+        justify-content-center
+        min-vh100
+        p-2
+      "
+    >
       <img alt="Umbrel" src="@/assets/logo.svg" class="mb-2 logo" />
       <h1 class="text-center mb-2">welcome back</h1>
-      <p class="text-muted w-75 text-center">Enter the password to login to your Umbrel</p>
+      <p class="text-muted w-75 text-center">
+        Enter the password to login to your Umbrel
+      </p>
 
       <form
-        v-on:submit.prevent="authenticateUser"
-        class="form-container mt-3 d-flex flex-column form-container w-100 align-items-center"
+        class="
+          form-container
+          mt-3
+          d-flex
+          flex-column
+          form-container
+          w-100
+          align-items-center
+        "
+        @submit.prevent="authenticateUser"
       >
         <input-password
-          v-model="password"
           ref="password"
+          v-model="password"
           placeholder="Password"
-          :inputClass="[
+          :input-class="[
             isIncorrectPassword ? 'incorrect-password' : '',
-            'card-input w-100'
+            'card-input w-100',
           ]"
           :disabled="isLoggingIn"
         />
         <div class="login-button-container">
           <transition name="fade">
-            <small class="mt-2 text-danger error" v-show="isIncorrectPassword">Incorrect password</small>
+            <small v-show="isIncorrectPassword" class="mt-2 text-danger error"
+              >Incorrect password</small
+            >
           </transition>
           <transition name="slide-up">
             <b-button
+              v-show="!!password && !isIncorrectPassword"
               variant="success"
               type="submit"
               size="lg"
               class="px-4 login-button"
               :class="{ 'loading-fade-blink': isLoggingIn }"
-              v-show="!!password && !isIncorrectPassword"
               :disabled="isLoggingIn"
-            >Log in</b-button>
+              >Log in</b-button
+            >
           </transition>
         </div>
       </form>
@@ -51,28 +73,31 @@
 <script>
 import { mapState } from "vuex";
 
-import InputPassword from "@/components/Utility/InputPassword";
+import InputPassword from "@/components/Utility/InputPassword.vue";
 
 export default {
+  components: {
+    InputPassword,
+  },
   data() {
     return {
       loading: true,
       password: "",
       isIncorrectPassword: false,
-      isLoggingIn: false
+      isLoggingIn: false,
     };
-  },
-  watch: {
-    password: function() {
-      //bring up log in button after user retries new password after failed attempt
-      this.isIncorrectPassword = false;
-    }
   },
   computed: {
     ...mapState({
-      jwt: state => state.user.jwt,
-      registered: state => state.user.registered
-    })
+      jwt: (state) => state.user.jwt,
+      registered: (state) => state.user.registered,
+    }),
+  },
+  watch: {
+    password: function () {
+      //bring up log in button after user retries new password after failed attempt
+      this.isIncorrectPassword = false;
+    },
   },
   async created() {
     //redirect to dashboard if already logged in
@@ -107,11 +132,8 @@ export default {
       return this.$router.push(
         this.$router.history.current.query.redirect || "/dashboard"
       );
-    }
+    },
   },
-  components: {
-    InputPassword
-  }
 };
 </script>
 

@@ -26,8 +26,8 @@
       <b-navbar-nav class="ml-auto">
         <!-- Chain badge -->
         <b-badge
-          variant="success"
           v-if="chain !== 'main'"
+          variant="success"
           class="align-self-center mr-2 text-capitalize"
           pill
           >{{ chain === "test" ? "testnet" : chain }}</b-badge
@@ -46,7 +46,7 @@
           no-caret
         >
           <!-- Using 'button-content' slot -->
-          <template v-slot:button-content>{{ name.split(" ")[0] }}</template>
+          <template #button-content>{{ name.split(" ")[0] }}</template>
           <b-dropdown-item @click="logout">Log out</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -55,17 +55,17 @@
     <!-- Mobile menu -->
     <transition name="mobile-vertical-menu">
       <div
-        class="mobile-vertical-menu d-lg-none d-xl-none"
         v-if="isMobileMenuOpen"
+        class="mobile-vertical-menu d-lg-none d-xl-none"
       >
-        <authenticated-vertical-navbar :isMobileMenu="true" />
+        <authenticated-vertical-navbar :is-mobile-menu="true" />
       </div>
     </transition>
 
     <transition name="mobile-vertical-menu-fader">
       <div
-        class="mobile-vertical-menu-fader d-lg-none d-xl-none"
         v-if="isMobileMenuOpen"
+        class="mobile-vertical-menu-fader d-lg-none d-xl-none"
         @click="toggleMobileMenu"
       ></div>
     </transition>
@@ -82,21 +82,21 @@
 
       <b-col col lg="9" xl="10">
         <b-modal
+          v-if="availableUpdate.version"
           id="confirm-update-modal"
+          v-model="showUpdateConfirmationModal"
           size="lg"
           centered
           hide-footer
-          v-if="availableUpdate.version"
-          v-model="showUpdateConfirmationModal"
         >
-          <template v-slot:modal-header>
+          <template #modal-header>
             <div class="px-2 px-sm-3 pt-2 d-flex justify-content-between w-100">
               <h3>Umbrel v{{ availableUpdate.version }}</h3>
               <!-- Emulate built in modal header close button action -->
               <a
                 href="#"
                 class="align-self-center"
-                v-on:click.stop.prevent="hideUpdateConfirmationModal"
+                @click.stop.prevent="hideUpdateConfirmationModal"
               >
                 <svg
                   width="18"
@@ -117,7 +117,7 @@
           </template>
           <div class="px-2 px-sm-3 pb-2 pb-sm-3">
             <div class>
-              <p class="text-newlines" v-if="availableUpdate.notes">
+              <p v-if="availableUpdate.notes" class="text-newlines">
                 {{ availableUpdate.notes }}
               </p>
               <b-alert variant="warning" show>
@@ -165,10 +165,10 @@
             >
             &nbsp;is now available to install
             <a
+              v-show="!isUpdating"
               href="#"
               class="alert-link float-right"
               @click.prevent="confirmUpdate"
-              v-show="!isUpdating"
               >Install now</a
             >
             <b-spinner
@@ -178,21 +178,45 @@
               class="float-right mt-1"
             ></b-spinner>
           </b-alert>
-          <b-alert class="mt-4 mb-0" variant="warning" v-if="isRunningLowOnRam" show dismissible>
+          <b-alert
+            v-if="isRunningLowOnRam"
+            class="mt-4 mb-0"
+            variant="warning"
+            show
+            dismissible
+          >
             <b-icon icon="exclamation-circle" class="mr-2"></b-icon>
-            <b>Low RAM:</b> Your Umbrel is running low on RAM.
-            Consider uninstalling some apps or upgrading your Umbrel's hardware.
-            <router-link to="/settings#ram" class="alert-link float-right">View usage</router-link>
+            <b>Low RAM:</b> Your Umbrel is running low on RAM. Consider
+            uninstalling some apps or upgrading your Umbrel's hardware.
+            <router-link to="/settings#ram" class="alert-link float-right"
+              >View usage</router-link
+            >
           </b-alert>
-          <b-alert class="mt-4 mb-0" variant="warning" v-if="isRunningLowOnStorage" show dismissible>
+          <b-alert
+            v-if="isRunningLowOnStorage"
+            class="mt-4 mb-0"
+            variant="warning"
+            show
+            dismissible
+          >
             <b-icon icon="exclamation-circle" class="mr-2"></b-icon>
-            <b>Low storage:</b> Your Umbrel only has {{ readableSize(storage.total - storage.used) }} of storage left.
+            <b>Low storage:</b> Your Umbrel only has
+            {{ readableSize(storage.total - storage.used) }} of storage left.
             Consider uninstalling some apps or upgrading to a larger drive.
-            <router-link to="/settings#storage" class="alert-link float-right">View usage</router-link>
+            <router-link to="/settings#storage" class="alert-link float-right"
+              >View usage</router-link
+            >
           </b-alert>
-          <b-alert class="mt-4 mb-0" variant="warning" v-if="isUmbrelOS && isRunningHot" show dismissible>
+          <b-alert
+            v-if="isUmbrelOS && isRunningHot"
+            class="mt-4 mb-0"
+            variant="warning"
+            show
+            dismissible
+          >
             <b-icon icon="exclamation-circle" class="mr-2"></b-icon>
-            <b>High temperature:</b> Your Raspberry Pi is running hot. Consider using a heatsink, fan or a cooling case.
+            <b>High temperature:</b> Your Raspberry Pi is running hot. Consider
+            using a heatsink, fan or a cooling case.
           </b-alert>
           <transition name="change-page" mode="out-in">
             <!-- Content -->
@@ -206,7 +230,9 @@
             <small>
               <a href="https://getumbrel.com" target="_blank">getumbrel.com</a>
               |
-              <a href="https://community.getumbrel.com" target="_blank">community</a>
+              <a href="https://community.getumbrel.com" target="_blank"
+                >community</a
+              >
             </small>
           </p>
         </footer>
@@ -219,12 +245,15 @@
 import { mapState } from "vuex";
 import { readableSize } from "@/helpers/size";
 import API from "@/helpers/api";
-import AuthenticatedVerticalNavbar from "@/components/AuthenticatedVerticalNavbar";
+import AuthenticatedVerticalNavbar from "@/components/AuthenticatedVerticalNavbar.vue";
 
 export default {
+  components: {
+    AuthenticatedVerticalNavbar,
+  },
   data() {
     return {
-      isUpdating: false
+      isUpdating: false,
     };
   },
   computed: {
@@ -233,7 +262,8 @@ export default {
       chain: (state) => state.bitcoin.chain,
       availableUpdate: (state) => state.system.availableUpdate,
       updateStatus: (state) => state.system.updateStatus,
-      showUpdateConfirmationModal: (state) => state.system.showUpdateConfirmationModal,
+      showUpdateConfirmationModal: (state) =>
+        state.system.showUpdateConfirmationModal,
       ram: (state) => state.system.ram,
       storage: (state) => state.system.storage,
       isUmbrelOS: (state) => state.system.isUmbrelOS,
@@ -242,7 +272,7 @@ export default {
     isRunningLowOnRam() {
       // over 95% RAM used
       if (this.ram && this.ram.total) {
-        return this.ram.used / this.ram.total > 0.95
+        return this.ram.used / this.ram.total > 0.95;
       }
       return false;
     },
@@ -261,8 +291,23 @@ export default {
       return false;
     },
     isMobileMenuOpen() {
-       return this.$store.getters.isMobileMenuOpen;
+      return this.$store.getters.isMobileMenuOpen;
     },
+  },
+  watch: {},
+  created() {
+    //load this data once:
+    this.$store.dispatch("user/getInfo");
+
+    //refresh this data every 20s:
+    this.fetchData();
+    this.interval = window.setInterval(this.fetchData, 20000);
+  },
+  beforeUnmount() {
+    window.clearInterval(this.interval);
+    if (this.pollUpdateStatus) {
+      window.clearInterval(this.pollUpdateStatus);
+    }
   },
   methods: {
     logout() {
@@ -332,24 +377,6 @@ export default {
     readableSize(n) {
       return readableSize(n);
     },
-  },
-  created() {
-    //load this data once:
-    this.$store.dispatch("user/getInfo");
-
-    //refresh this data every 20s:
-    this.fetchData();
-    this.interval = window.setInterval(this.fetchData, 20000);
-  },
-  beforeDestroy() {
-    window.clearInterval(this.interval);
-    if (this.pollUpdateStatus) {
-      window.clearInterval(this.pollUpdateStatus);
-    }
-  },
-  watch: {},
-  components: {
-    AuthenticatedVerticalNavbar,
   },
 };
 </script>

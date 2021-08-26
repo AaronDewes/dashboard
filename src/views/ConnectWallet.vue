@@ -13,8 +13,8 @@
           <b-form-select
             :value="wallet"
             :options="options"
-            @change="selectWallet"
             class="mb-4"
+            @change="selectWallet"
           ></b-form-select>
         </b-col>
       </b-row>
@@ -22,22 +22,17 @@
       <router-view :urls="urls" @showQrModal="showQrModal"></router-view>
     </div>
 
-      <b-modal
-        id="qr-modal"
-        ref="qr-modal"
-        hide-footer
-        size="lg"
-      >
-        <div class="d-flex w-100 align-items-center justify-content-center">
-          <qr-code
-            :value="this.qrModalData.value"
-            :size="this.qrModalData.size"
-            class="qr-image mb-5"
-            showLogo
-          ></qr-code>
-        </div>
-      </b-modal>
-    </div>
+    <b-modal id="qr-modal" ref="qr-modal" hide-footer size="lg">
+      <div class="d-flex w-100 align-items-center justify-content-center">
+        <qr-code
+          :value="qrModalData.value"
+          :size="qrModalData.size"
+          class="qr-image mb-5"
+          show-logo
+        ></qr-code>
+      </div>
+    </b-modal>
+  </div>
 </template>
 
 <script>
@@ -45,6 +40,9 @@ import { mapState } from "vuex";
 import QrCode from "@/components/Utility/QrCode.vue";
 
 export default {
+  components: {
+    QrCode,
+  },
   data() {
     return {
       options: [
@@ -74,24 +72,24 @@ export default {
             { value: "lndconnect-grpc-local", text: "lndconnect gRPC (Local)" },
             { value: "lndconnect-grpc-tor", text: "lndconnect gRPC (Tor)" },
             { value: "lndconnect-rest-local", text: "lndconnect REST (Local)" },
-            { value: "lndconnect-rest-tor", text: "lndconnect REST (Tor)" }
-          ]
-        }
+            { value: "lndconnect-rest-tor", text: "lndconnect REST (Tor)" },
+          ],
+        },
       ],
       qrModalData: {
         value: "",
-        size: window.innerWidth < 600 ? window.innerWidth - 60 : 500
+        size: window.innerWidth < 600 ? window.innerWidth - 60 : 500,
       },
     };
   },
   computed: {
     ...mapState({
-      urls: state => {
+      urls: (state) => {
         return {
           bitcoin: {
             p2p: state.bitcoin.p2p,
             electrum: state.bitcoin.electrum,
-            rpc: state.bitcoin.rpc
+            rpc: state.bitcoin.rpc,
           },
           lnd: state.lightning.lndConnectUrls,
         };
@@ -101,28 +99,25 @@ export default {
       return this.$route.meta.wallet || null;
     },
   },
+  created() {
+    this.fetchConnectionDetails();
+  },
   methods: {
     fetchConnectionDetails() {
       return Promise.all([
         this.$store.dispatch("lightning/getLndConnectUrls"),
         this.$store.dispatch("bitcoin/getP2PInfo"),
         this.$store.dispatch("bitcoin/getElectrumInfo"),
-        this.$store.dispatch("bitcoin/getRpcInfo")
+        this.$store.dispatch("bitcoin/getRpcInfo"),
       ]);
     },
     selectWallet(wallet) {
       this.$router.push(`/connect/${wallet}`);
     },
     showQrModal(value) {
-      this.qrModalData.value = value
+      this.qrModalData.value = value;
       this.$refs["qr-modal"].show();
-    }
-  },
-  created() {
-    this.fetchConnectionDetails();
-  },
-  components: {
-    QrCode
+    },
   },
 };
 </script>

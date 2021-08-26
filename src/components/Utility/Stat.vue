@@ -5,23 +5,23 @@
       <div class="mb-1">
         <!-- Loading state -->
         <span
-          class="loading-placeholder loading-placeholder-lg w-50 mt-2"
           v-if="numberValue === -1"
+          class="loading-placeholder loading-placeholder-lg w-50 mt-2"
           style
         ></span>
-        <div class="d-flex align-items-baseline" v-else>
+        <div v-else class="d-flex align-items-baseline">
           <h3 class="font-weight-normal mb-0">
             <!-- suffix number like 100K, 120K, 2M, etc -->
             <CountUp
               :value="{
                 endVal: numberValue,
-                decimalPlaces: hasDecimals ? 5 : 0
+                decimalPlaces: hasDecimals ? 5 : 0,
               }"
               :suffix="numberSuffix"
-              countOnLoad
+              count-on-load
             />
           </h3>
-          <span class="text-muted" style="margin-left: 0.5rem;">{{
+          <span class="text-muted" style="margin-left: 0.5rem">{{
             suffix
           }}</span>
         </div>
@@ -39,7 +39,7 @@
           :class="{
             rising: change.value > 0,
             declining: change.value < 0,
-            neutral: change.value === 0
+            neutral: change.value === 0,
           }"
         >
           <path
@@ -54,24 +54,24 @@
           :class="{
             'text-success': change.value > 0,
             'text-danger': change.value < 0,
-            'text-muted': change.value === 0
+            'text-muted': change.value === 0,
           }"
         >
           {{ change.value >= 0 ? "+" : "" }}{{ change.value
           }}{{ change.suffix }}
         </span>
       </div>
-      <div class="d-block" v-else>
-        <span style="opacity: 0;">.</span>
+      <div v-else class="d-block">
+        <span style="opacity: 0">.</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import CountUp from "@/components/Utility/CountUp";
+import CountUp from "@/components/Utility/CountUp.vue";
 
-const abbreviate = n => {
+const abbreviate = (n) => {
   if (n < 1e2) return [Number(n), ""];
   if (n >= 1e2 && n < 1e3) return [Number(n.toFixed(1)), ""];
   if (n >= 1e3 && n < 1e6) return [Number((n / 1e3).toFixed(1)), "K"];
@@ -81,26 +81,46 @@ const abbreviate = n => {
 };
 
 export default {
+  components: {
+    CountUp,
+  },
   props: {
-    title: String,
-    value: Number,
-    suffix: String,
+    title: {
+      type: String,
+      required: true,
+    },
+    value: {
+      type: Number,
+      required: true,
+    },
+    suffix: {
+      type: String,
+      required: true,
+    },
     abbreviateValue: {
       type: Boolean,
-      default: false
+      default: false,
     },
     hasDecimals: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showNumericChange: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showPercentChange: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+  },
+  data() {
+    return {
+      change: {
+        value: 0,
+        suffix: "",
+      },
+    };
   },
   computed: {
     numberValue() {
@@ -116,42 +136,33 @@ export default {
       } else {
         return abbreviate(this.value)[1];
       }
-    }
+    },
   },
-  data() {
-    return {
-      change: {
-        value: 0,
-        suffix: ""
-      }
-    };
-  },
-  methods: {},
   watch: {
     value(newValue, oldValue) {
       if (this.showNumericChange) {
         if (oldValue <= 0) {
           this.change = {
             value: 0,
-            suffix: ""
+            suffix: "",
           };
         } else {
           if (!this.abbreviateValue) {
             this.change = {
               value: newValue - oldValue,
-              suffix: ""
+              suffix: "",
             };
           } else {
             //because fn abbreviate doesn't work with negative numbers
             if (newValue - oldValue < 0) {
               this.change = {
                 value: abbreviate(oldValue - newValue)[0] * -1,
-                suffix: abbreviate(oldValue - newValue)[1]
+                suffix: abbreviate(oldValue - newValue)[1],
               };
             } else {
               this.change = {
                 value: abbreviate(newValue - oldValue)[0],
-                suffix: abbreviate(newValue - oldValue)[1]
+                suffix: abbreviate(newValue - oldValue)[1],
               };
             }
           }
@@ -160,20 +171,18 @@ export default {
         if (oldValue <= 0) {
           this.change = {
             value: 0,
-            suffix: "%"
+            suffix: "%",
           };
         } else {
           this.change = {
             value: Math.round(((newValue - oldValue) * 100) / oldValue),
-            suffix: "%"
+            suffix: "%",
           };
         }
       }
-    }
+    },
   },
-  components: {
-    CountUp
-  }
+  methods: {},
 };
 </script>
 
