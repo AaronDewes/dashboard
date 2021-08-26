@@ -5,17 +5,13 @@ ARG STAGING_DEPLOYMENT=false
 # make the 'app' folder the current working directory
 WORKDIR /app
 
-# copy 'package.json'
-COPY package.json ./
+# Copy project files and folders to the current working directory (i.e. '/app')
+COPY  . .
 
-# copy 'yarn.lock'
-COPY yarn.lock ./
 
-# install dependencies
+# Install dependencies
 RUN yarn
 
-# copy project files and folders to the current working directory (i.e. 'app' folder)
-COPY . .
 
 # build app for production
 RUN yarn build
