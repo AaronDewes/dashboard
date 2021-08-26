@@ -4,7 +4,7 @@
       class="d-flex flex-column align-items-center justify-content-center min-vh100 p-2"
       v-if="loading"
     >
-      <img alt="Umbrel" src="@/assets/logo.svg" class="mb-2 logo" />
+      <img alt="logo" src="@/assets/logo.svg" class="mb-2 logo" />
       <b-spinner class="my-5"></b-spinner>
     </div>-->
 
@@ -18,10 +18,10 @@
         p-2
       "
     >
-      <img alt="Umbrel" src="@/assets/logo.svg" class="mb-2 logo" />
+      <img alt="logo" src="@/assets/logo.svg" class="mb-2 logo" />
       <h1 class="text-center mb-2">welcome back</h1>
       <p class="text-muted w-75 text-center">
-        Enter the password to login to your Umbrel
+        Enter the password to login to your node
       </p>
 
       <form

@@ -4,7 +4,7 @@
       <div class="">
         <h1>app store</h1>
         <p class="text-muted">
-          Add super powers to your Umbrel with amazing self-hosted applications
+          Add super powers to your node with amazing self-hosted applications
         </p>
       </div>
     </div>
@@ -71,12 +71,10 @@
       <card-widget class="pb-2 card-app-list umbrel-dev-note mt-2">
         <div class="px-3 px-lg-4 py-3">
           <span class="rocket ml-3 ml-lg-4">🚀</span>
-          <h4 class="font-weight-normal mt-4">
-            Get your app on the Umbrel App Store
-          </h4>
+          <h4 class="font-weight-normal mt-4">Get your app on the App Store</h4>
           <p class="text-muted mb-3">
             Use any programming language, database or framework to build your
-            app for Umbrel.
+            app.
           </p>
           <b-link
             href="https://github.com/getumbrel/umbrel/blob/master/apps/README.md"

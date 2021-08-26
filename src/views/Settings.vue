@@ -57,7 +57,7 @@
               <div class="w-75">
                 <span class="d-block">Remote access</span>
                 <small class="d-block" style="opacity: 0.4"
-                  >Remotely access your Umbrel from anywhere using a Tor browser
+                  >Remotely access your node from anywhere using a Tor browser
                   on this URL</small
                 >
               </div>
@@ -133,7 +133,7 @@
             <div>
               <span class="d-block">Password</span>
               <small class="d-block" style="opacity: 0.4"
-                >Change your Umbrel's password</small
+                >Change your node's password</small
               >
             </div>
 
@@ -214,8 +214,8 @@
                 <b-alert variant="warning" show>
                   <small>
                     ⚠ Remember, there is no "Forgot Password" button. If you
-                    lose your password, you will have to recover your Umbrel
-                    using your 24 secret words and channel backup.
+                    lose your password, you will have to recover your node using
+                    your 24 secret words and channel backup.
                   </small>
                 </b-alert>
                 <b-button
@@ -263,7 +263,7 @@
             <div>
               <span class="d-block">Shutdown</span>
               <small class="d-block" style="opacity: 0.4"
-                >Power off your Umbrel</small
+                >Power off your node</small
               >
             </div>
             <b-button variant="outline-danger" size="sm" @click="shutdownPrompt"
@@ -276,7 +276,7 @@
             <div>
               <span class="d-block">Restart</span>
               <small class="d-block" style="opacity: 0.4"
-                >Restart your Umbrel</small
+                >Restart your node</small
               >
             </div>
 
@@ -293,7 +293,7 @@
               <div>
                 <p>
                   Your Lightning wallet will not be able to receive any payments
-                  while your Umbrel is restarting.
+                  while your node is restarting.
                 </p>
               </div>
             </b-modal>
@@ -328,7 +328,7 @@
               <template #modal-header="{ close }">
                 <div class="px-2 pt-2 d-flex justify-content-between w-100">
                   <h4 v-if="loadingDebug">Generating logs...</h4>
-                  <h4 v-else>{{ showDmesg ? "DMESG logs" : "Umbrel logs" }}</h4>
+                  <h4 v-else>{{ showDmesg ? "Kernel logs" : "Main logs" }}</h4>
                   <!-- Emulate built in modal header close button action -->
                   <a
                     href="#"
@@ -372,7 +372,7 @@
                     @click="showDmesg = !showDmesg"
                   >
                     <b-icon icon="arrow-left-right" class="mr-1"></b-icon> View
-                    {{ !showDmesg ? "DMESG logs" : "Umbrel logs" }}
+                    {{ !showDmesg ? "Kernel logs" : "Main logs" }}
                   </b-button>
                   <b-button
                     size="sm"
@@ -380,7 +380,7 @@
                     @click="downloadTextFile(debugContents, debugFilename)"
                   >
                     <b-icon icon="download" class="mr-2"></b-icon>Download
-                    {{ showDmesg ? "DMESG logs" : "Umbrel logs" }}
+                    {{ showDmesg ? "Kernel logs" : "Main logs" }}
                   </b-button>
                 </div>
               </template>
@@ -396,7 +396,7 @@
             <span v-show="!availableUpdate.version">
               <b-icon icon="check-circle-fill" variant="success"></b-icon>
               <small class="ml-1" style="opacity: 0.4"
-                >Your Umbrel is on the latest version</small
+                >Your node is on the latest version</small
               >
             </span>
             <div v-show="availableUpdate.version">
@@ -578,16 +578,13 @@ export default {
         return;
       }
 
-      this.$bvToast.toast(
-        `You've successfully changed your Umbrel's password`,
-        {
-          title: "Password Changed",
-          autoHideDelay: 3000,
-          variant: "success",
-          solid: true,
-          toaster: "b-toaster-bottom-right",
-        }
-      );
+      this.$bvToast.toast(`You've successfully changed your node's password`, {
+        title: "Password changed",
+        autoHideDelay: 3000,
+        variant: "success",
+        solid: true,
+        toaster: "b-toaster-bottom-right",
+      });
 
       this.isChangingPassword = false;
 
@@ -651,7 +648,7 @@ export default {
 
       // Get user consent first
       const approved = await this.$bvModal.msgBoxConfirm(
-        "Your Lightning wallet will not be able to receive any payments while your Umbrel is offline.",
+        "Your Lightning wallet will not be able to receive any payments while your node is offline.",
         { title: "Are you sure?" }
       );
       if (!approved) {
@@ -670,7 +667,7 @@ export default {
       } catch (e) {
         toastText = "Shutdown failed";
         toastOptions.title =
-          "Something went wrong and Umbrel was not able to shutdown";
+          "Something went wrong and your node was not able to shutdown";
         toastOptions.variant = "danger";
       }
       this.$bvToast.toast(toastText, toastOptions);
@@ -697,7 +694,7 @@ export default {
           await this.$store.dispatch("system/reboot");
         } catch (e) {
           this.$bvToast.toast("Reboot failed", {
-            title: "Something went wrong and Umbrel was not able to reboot",
+            title: "Something went wrong and your node was not able to reboot",
             autoHideDelay: 3000,
             variant: "danger",
             solid: true,

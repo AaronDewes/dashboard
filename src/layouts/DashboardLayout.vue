@@ -3,7 +3,7 @@
     <b-navbar type="light" variant="default" class="nav-horizontal">
       <div>
         <b-navbar-brand to="/dashboard">
-          <img src="@/assets/logo.svg" alt="Umbrel" height="50" />
+          <img src="@/assets/logo.svg" alt="logo" height="50" />
         </b-navbar-brand>
       </div>
 
@@ -91,7 +91,7 @@
         >
           <template #modal-header>
             <div class="px-2 px-sm-3 pt-2 d-flex justify-content-between w-100">
-              <h3>Umbrel v{{ availableUpdate.version }}</h3>
+              <h3>Version {{ availableUpdate.version }}</h3>
               <!-- Emulate built in modal header close button action -->
               <a
                 href="#"
@@ -161,7 +161,7 @@
               :href="`https://github.com/getumbrel/umbrel/releases/tag/v${availableUpdate.version}`"
               target="_blank"
               class="alert-link"
-              >Umbrel v{{ availableUpdate.version }}</a
+              >Version {{ availableUpdate.version }}</a
             >
             &nbsp;is now available to install
             <a
@@ -186,8 +186,8 @@
             dismissible
           >
             <b-icon icon="exclamation-circle" class="mr-2"></b-icon>
-            <b>Low RAM:</b> Your Umbrel is running low on RAM. Consider
-            uninstalling some apps or upgrading your Umbrel's hardware.
+            <b>Low RAM:</b> Your node is running low on RAM. Consider
+            uninstalling some apps or upgrading your node's hardware.
             <router-link to="/settings#ram" class="alert-link float-right"
               >View usage</router-link
             >
@@ -200,7 +200,7 @@
             dismissible
           >
             <b-icon icon="exclamation-circle" class="mr-2"></b-icon>
-            <b>Low storage:</b> Your Umbrel only has
+            <b>Low storage:</b> Your node only has
             {{ readableSize(storage.total - storage.used) }} of storage left.
             Consider uninstalling some apps or upgrading to a larger drive.
             <router-link to="/settings#storage" class="alert-link float-right"

@@ -12,10 +12,10 @@
             p-2
           "
         >
-          <img alt="Umbrel" src="@/assets/logo.svg" class="mb-5 logo" />
+          <img alt="logo" src="@/assets/logo.svg" class="mb-5 logo" />
           <span class="text-muted w-75 text-center">
             <small
-              >For security reasons Umbrel cannot be embedded in an
+              >For security reasons, this app cannot be embedded in an
               iframe.</small
             >
           </span>
@@ -28,7 +28,7 @@
           }}</small>
           <b-alert class="system-alert" variant="warning" show>
             <small
-              >Please do not refresh this page or turn off your Umbrel while the
+              >Please do not refresh this page or turn off your node while the
               update is in progress</small
             >
           </b-alert>
@@ -43,8 +43,8 @@
         <div v-if="shuttingDown || rebooting" class="text-center">
           <b-alert class="system-alert" variant="warning" show>
             <small
-              >Please do not refresh this page or turn off your Umbrel while it
-              is {{ shuttingDown ? "shutting down" : "rebooting" }}</small
+              >Please do not refresh this page or turn off your node while it is
+              {{ shuttingDown ? "shutting down" : "rebooting" }}</small
             >
           </b-alert>
         </div>

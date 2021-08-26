@@ -49,7 +49,7 @@
       </step>
       <step>
         Congratulations! You have successfully connected Fully Noded to your
-        Umbrel.
+        node.
       </step>
     </step-list>
   </connection-details>

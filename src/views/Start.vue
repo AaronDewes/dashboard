@@ -10,7 +10,7 @@
         p-2
       "
     >
-      <img alt="Umbrel" src="@/assets/logo.svg" class="mb-2 logo" />
+      <img alt="logo" src="@/assets/logo.svg" class="mb-2 logo" />
       <h1 class="text-center mb-2">{{ heading }}</h1>
       <p class="text-muted w-75 text-center">{{ text }}</p>
 
@@ -80,7 +80,7 @@
                 variant="warning"
                 class="mr-1"
               ></b-icon
-              >Umbrel is in beta and should not be considered secure
+              >This software is in beta and should not be considered secure
             </span>
             <span class="d-block text-muted text-small mb-1">
               <b-icon
@@ -88,8 +88,7 @@
                 variant="warning"
                 class="mr-1"
               ></b-icon
-              >I should not put more funds on my Umbrel than I'm prepared to
-              lose
+              >I should not put more funds on my node than I'm prepared to lose
             </span>
           </div>
         </div>
@@ -97,12 +96,12 @@
         <div v-show="currentStep === 8" class="text-center">
           <p class="text-muted">
             But you don't have to wait for the sync to complete... You can start
-            using Umbrel right away!
+            using your node right away!
           </p>
           <a
             v-b-tooltip.hover.bottom
             href="#"
-            title="Umbrel uses neutrino while the sync is in progress, and automatically switches to Bitcoin Core once it's synced"
+            title="Your node uses neutrino while the sync is in progress, and automatically switches to Bitcoin Core once it's synced"
           >
             <small>
               <b-icon
@@ -190,20 +189,20 @@ export default {
       currentStep: 0,
       steps: [
         {
-          heading: "welcome to umbrel",
+          heading: "welcome to citadel",
           text: "Your journey to become bitcoin starts now.",
         },
         {
           heading: "what is your name?",
-          text: "Your name stays on your Umbrel and is never shared with a 3rd party.",
+          text: "Your name stays on your node and is never shared with a 3rd party.",
         },
         {
           heading: "set your password",
-          text: "You'll need this password to login to your Umbrel.",
+          text: "You'll need this password to login to your node.",
         },
         {
           heading: "confirm your password",
-          text: "You'll need this password to login to your Umbrel.",
+          text: "You'll need this password to login to your node.",
         },
         {
           heading: "note down your secret words",
@@ -211,11 +210,11 @@ export default {
         },
         {
           heading: "note down your secret words",
-          text: 'Remember, there is no "forgot password" button. You will need these 24 words to recover your Umbrel.',
+          text: 'Remember, there is no "forgot password" button. You will need these 24 words to recover your node.',
         },
         {
           heading: "access from anywhere",
-          text: "Even when you're not on your home network, you can access your Umbrel using Tor Browser on the following URL",
+          text: "Even when you're not on your home network, you can access your node using Tor Browser on the following URL",
         },
         {
           heading: "one last thing",
@@ -223,7 +222,7 @@ export default {
         },
         {
           heading: "🎉 that's it!",
-          text: "Congratulations! Your Umbrel is now set up and synchronizing the Bitcoin blockchain.",
+          text: "Congratulations! Your node is now set up and synchronizing the Bitcoin blockchain.",
         },
       ],
       notedSeed: false,
@@ -242,13 +241,13 @@ export default {
     }),
     heading() {
       if (this.currentStep === 5 && this.recover) {
-        return "recover your umbrel";
+        return "recover your node";
       }
       return this.steps[this.currentStep]["heading"];
     },
     text() {
       if (this.currentStep === 5 && this.recover) {
-        return "Enter your 24 secret words in the exact order to recover your Umbrel.";
+        return "Enter your 24 secret words in the exact order to recover your node.";
       }
       return this.steps[this.currentStep]["text"];
     },

@@ -36,8 +36,7 @@
       </step>
       <step> Tap <span class="font-weight-bold">"Connect"</span> </step>
       <step>
-        Congratulations! You have successfully connected Zap (iOS) to your
-        Umbrel.
+        Congratulations! You have successfully connected Zap (iOS) to your node.
       </step>
     </step-list>
   </connection-details>

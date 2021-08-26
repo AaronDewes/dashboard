@@ -4,7 +4,7 @@
       <step>
         Install the
         <b-link to="/app-store/bluewallet">BlueWallet Lightning</b-link> app on
-        your Umbrel.
+        your node.
       </step>
       <step>
         Open BlueWallet on your phone, tap the three dots to access the settings
@@ -17,7 +17,7 @@
       <step>
         Scan the QR code displayed in the
         <b-link to="/app-store/bluewallet">BlueWallet Lightning</b-link> app on
-        your Umbrel.
+        your node.
       </step>
       <step> Tap <span class="font-weight-bold">"Save"</span>. </step>
       <step>
@@ -48,7 +48,7 @@
       </step>
       <step>
         Congratulations! You have successfully connected BlueWallet to your
-        Umbrel.
+        node.
       </step>
     </step-list>
   </connection-details>
