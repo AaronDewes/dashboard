@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { createApp, h } from "vue";
 //import VueConfetti from "vue-confetti";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue-3";
 
