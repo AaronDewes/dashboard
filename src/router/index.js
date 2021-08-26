@@ -1,4 +1,4 @@
-import { createRouter } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 import store from "@/store";
 
@@ -344,6 +344,7 @@ const routes = [
 
 const router = createRouter({
   mode: "history",
+  history: createWebHistory(),
   base: import.meta.env.BASE_URL,
   routes,
   scrollBehavior: (to, from, savedPosition) => {

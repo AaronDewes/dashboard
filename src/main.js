@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import VueConfetti from "vue-confetti";
+//import VueConfetti from "vue-confetti";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue-3";
 
 import App from "./App.vue";
@@ -14,7 +14,7 @@ const app = createApp({
 
 app.use(BootstrapVue);
 app.use(BootstrapVueIcons);
-app.use(VueConfetti);
+//app.use(VueConfetti);
 app.use(router);
 app.use(store);
 
@@ -56,8 +56,4 @@ app.config.globalProperties.$filters = {
   },
 };
 
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount("#app");
+app.mount("#app");

@@ -368,13 +368,14 @@ export default {
 
       if (this.currentStep === 7) {
         //Wohoo! Time to celebrate!
-        this.$confetti.start({
+        // Confetti isn'tt working yet in Vue 3
+        /*this.$confetti.start({
           particles: [
             {
               type: "rect",
             },
           ],
-        });
+        });*/
 
         this.lndUnlockInterval = window.setInterval(async () => {
           await this.$store.dispatch("lightning/getStatus");
@@ -392,9 +393,9 @@ export default {
         }, 60 * 1000);
 
         //Ok. 3s is more than enough to celebrate.
-        window.setTimeout(() => {
+        /*window.setTimeout(() => {
           this.$confetti.stop();
-        }, 3000);
+        }, 3000);*/
       }
 
       if (this.currentStep === 8) {
