@@ -938,7 +938,7 @@ export default {
 
       try {
         const res = await API.post(
-          `${import.meta.env.VITE__MIDDLEWARE_API_URL}/v1/lnd/transaction`,
+          `${import.meta.env.VITE_MIDDLEWARE_API_URL}/v1/lnd/transaction`,
           payload
         );
         const withdrawTx = res.data;

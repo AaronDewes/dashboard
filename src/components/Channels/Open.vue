@@ -233,7 +233,7 @@ export default {
 
       try {
         await API.post(
-          `${import.meta.env.VITE__MIDDLEWARE_API_URL}/v1/lnd/channel/open`,
+          `${import.meta.env.VITE_MIDDLEWARE_API_URL}/v1/lnd/channel/open`,
           payload
         );
         this.isOpening = false;
@@ -271,7 +271,7 @@ export default {
           try {
             estimates = await API.get(
               `${
-                import.meta.env.VITE__MIDDLEWARE_API_URL
+                import.meta.env.VITE_MIDDLEWARE_API_URL
               }/v1/lnd/channel/estimateFee?confTarget=0&amt=${
                 this.fundingAmount
               }&sweep=${this.sweep}`

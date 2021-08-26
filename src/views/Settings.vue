@@ -556,7 +556,7 @@ export default {
 
       try {
         await API.post(
-          `${import.meta.env.VITE__MANAGER_API_URL}/v1/account/change-password`,
+          `${import.meta.env.VITE_MANAGER_API_URL}/v1/account/change-password`,
           payload,
           false
         );

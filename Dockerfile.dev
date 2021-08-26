@@ -10,8 +10,8 @@ ENV CHOKIDAR_INTERVAL=1000
 
 # We need to make sure we build with production URLS so the NGINX proxy
 # in umbrel-dev routes them properly
-ENV VITE__MIDDLEWARE_API_URL=/api
-ENV VITE__MANAGER_API_URL=/manager-api
+ENV VITE_MIDDLEWARE_API_URL=/api
+ENV VITE_MANAGER_API_URL=/manager-api
 
 EXPOSE 3004
 ENTRYPOINT ["bash"]

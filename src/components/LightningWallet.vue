@@ -909,7 +909,7 @@ export default {
           this.receive.invoiceStatusPollerInprogress = true;
           const invoices = await API.get(
             `${
-              import.meta.env.VITE__MIDDLEWARE_API_URL
+              import.meta.env.VITE_MIDDLEWARE_API_URL
             }/v1/lnd/lightning/invoices`
           );
           if (invoices && invoices.length) {
@@ -1026,7 +1026,7 @@ export default {
       try {
         const res = await API.post(
           `${
-            import.meta.env.VITE__MIDDLEWARE_API_URL
+            import.meta.env.VITE_MIDDLEWARE_API_URL
           }/v1/lnd/lightning/payInvoice`,
           payload
         );
@@ -1069,7 +1069,7 @@ export default {
         try {
           const res = await API.post(
             `${
-              import.meta.env.VITE__MIDDLEWARE_API_URL
+              import.meta.env.VITE_MIDDLEWARE_API_URL
             }/v1/lnd/lightning/addInvoice`,
             payload
           );
@@ -1114,7 +1114,7 @@ export default {
 
       const fetchedInvoice = await API.get(
         `${
-          import.meta.env.VITE__MIDDLEWARE_API_URL
+          import.meta.env.VITE_MIDDLEWARE_API_URL
         }/v1/lnd/lightning/invoice?paymentRequest=${this.send.paymentRequest}`
       );
 
