@@ -344,7 +344,7 @@ const routes = [
 
 const router = createRouter({
   mode: "history",
-  base: process.env.BASE_URL,
+  base: import.meta.env.BASE_URL,
   routes,
   scrollBehavior: (to, from, savedPosition) => {
     // Exists when Browser's back/forward pressed
