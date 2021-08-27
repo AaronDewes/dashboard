@@ -371,7 +371,7 @@
                     variant="outline-success"
                     @click="showDmesg = !showDmesg"
                   >
-                    <BIconArrowLeftRight class="mr-1" /> View
+                    <b-icon icon="arrow-left-right" class="mr-1"></b-icon> View
                     {{ !showDmesg ? "Kernel logs" : "Main logs" }}
                   </b-button>
                   <b-button
@@ -379,7 +379,7 @@
                     variant="outline-success"
                     @click="downloadTextFile(debugContents, debugFilename)"
                   >
-                    <BIconDownload class="mr-2" />Download
+                    <b-icon icon="download" class="mr-2"></b-icon>Download
                     {{ showDmesg ? "Kernel logs" : "Main logs" }}
                   </b-button>
                 </div>
@@ -394,14 +394,14 @@
           </div>
           <div v-show="!isCheckingForUpdate">
             <span v-show="!availableUpdate.version">
-              <BIconCheckCircleFill />
+              <b-icon icon="check-circle-fill" variant="success"></b-icon>
               <small class="ml-1" style="opacity: 0.4"
                 >Your node is on the latest version</small
               >
             </span>
             <div v-show="availableUpdate.version">
               <span class="d-block">
-                <BIconBellFill />
+                <b-icon icon="bell-fill" variant="success"></b-icon>
                 <small class="text-muted ml-1"
                   >Umbrel v{{ availableUpdate.version }} is now available to
                   install</small
@@ -431,10 +431,11 @@
           :disabled="isCheckingForUpdate || isUpdating"
           @click="checkForUpdate"
         >
-          <BIconArrowRepeat
+          <b-icon
+            icon="arrow-repeat"
             class="mr-2"
             :animation="isCheckingForUpdate ? 'spin' : ''"
-          />
+          ></b-icon>
           {{ isCheckingForUpdate ? "Checking for update" : "Check for update" }}
         </b-button>
       </card-widget>
@@ -536,17 +537,6 @@ export default {
   },
   methods: {
     async changePassword() {
-      // disable on testnet
-      if (window.location.hostname === "testnet.getumbrel.com") {
-        return this.$bvToast.toast('y u try to do dis on testnet :"(', {
-          title: "Error",
-          autoHideDelay: 3000,
-          variant: "danger",
-          solid: true,
-          toaster: "b-toaster-bottom-right",
-        });
-      }
-
       const payload = {
         password: this.currentPassword,
         newPassword: this.newPassword,
@@ -562,13 +552,13 @@ export default {
         );
       } catch (error) {
         if (error.response && error.response.data) {
-          this.$bvToast.toast(error.response.data, {
+          /*this.$bvToast.toast(error.response.data, {
             title: "Error",
             autoHideDelay: 3000,
             variant: "danger",
             solid: true,
             toaster: "b-toaster-bottom-right",
-          });
+          });*/
           if (error.response.data === "Incorrect password") {
             this.isIncorrectPassword = true;
           }
@@ -577,13 +567,13 @@ export default {
         return;
       }
 
-      this.$bvToast.toast(`You've successfully changed your node's password`, {
+      /*this.$bvToast.toast(`You've successfully changed your node's password`, {
         title: "Password changed",
         autoHideDelay: 3000,
         variant: "success",
         solid: true,
         toaster: "b-toaster-bottom-right",
-      });
+      });*/
 
       this.isChangingPassword = false;
 
@@ -634,17 +624,6 @@ export default {
       window.URL.revokeObjectURL(url);
     },
     async shutdownPrompt() {
-      // disable on testnet
-      if (window.location.hostname === "testnet.getumbrel.com") {
-        return this.$bvToast.toast('y u try to do dis on testnet :"(', {
-          title: "Error",
-          autoHideDelay: 3000,
-          variant: "danger",
-          solid: true,
-          toaster: "b-toaster-bottom-right",
-        });
-      }
-
       // Get user consent first
       const approved = await this.$bvModal.msgBoxConfirm(
         "Your Lightning wallet will not be able to receive any payments while your node is offline.",
@@ -669,19 +648,9 @@ export default {
           "Something went wrong and your node was not able to shutdown";
         toastOptions.variant = "danger";
       }
-      this.$bvToast.toast(toastText, toastOptions);
+      //this.$bvToast.toast(toastText, toastOptions);
     },
     rebootPrompt() {
-      // disable on testnet
-      if (window.location.hostname === "testnet.getumbrel.com") {
-        return this.$bvToast.toast('y u try to do dis on testnet :"(', {
-          title: "Error",
-          autoHideDelay: 3000,
-          variant: "danger",
-          solid: true,
-          toaster: "b-toaster-bottom-right",
-        });
-      }
       // Reset any cached hasRebooted value from previous reboot
       this.$store.commit("system/setHasRebooted", false);
       this.$refs["reboot-modal"].show();
@@ -692,13 +661,13 @@ export default {
         try {
           await this.$store.dispatch("system/reboot");
         } catch (e) {
-          this.$bvToast.toast("Reboot failed", {
+          /*this.$bvToast.toast("Reboot failed", {
             title: "Something went wrong and your node was not able to reboot",
             autoHideDelay: 3000,
             variant: "danger",
             solid: true,
             toaster: "b-toaster-bottom-right",
-          });
+          });*/
         }
       }
     },

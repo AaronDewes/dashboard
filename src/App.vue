@@ -139,7 +139,7 @@ export default {
               toastOptions.variant = "danger";
             }
 
-            this.$bvToast.toast(this.updateStatus.description, toastOptions);
+            //this.$bvToast.toast(this.updateStatus.description, toastOptions);
 
             //refresh window to fetch latest code of dashboard
             delay(2000).then(() => {

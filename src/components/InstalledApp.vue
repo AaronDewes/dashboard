@@ -30,7 +30,7 @@
       variant="outline-danger"
       size="sm"
       @click="uninstall(name, id)"
-      ><small><BIconTrash /> Uninstall</small></b-button
+      ><small><b-icon icon="trash"></b-icon> Uninstall</small></b-button
     >
   </div>
 </template>

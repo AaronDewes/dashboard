@@ -240,7 +240,7 @@ export default {
         this.$emit("channelopen");
         //channel
         setTimeout(() => {
-          this.$bvToast.toast(
+          /*this.$bvToast.toast(
             `Channel of ${this.fundingAmount} Sats opened successfully`,
             {
               title: "Lightning Network",
@@ -250,7 +250,7 @@ export default {
               toaster: "b-toaster-bottom-right",
             }
           );
-        }, 200);
+        }, 200);*/
       } catch (error) {
         if (error.response && error.response.data) {
           this.isOpening = false;

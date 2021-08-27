@@ -72,13 +72,13 @@ const actions = {
     } catch (error) {
       if (error.response && error.response.data) {
         commit("removeUninstallingApp", appId);
-        return this.$bvToast.toast(error.response.data, {
+        /*return this.$bvToast.toast(error.response.data, {
           title: "Error",
           autoHideDelay: 3000,
           variant: "danger",
           solid: true,
           toaster: "b-toaster-bottom-right",
-        });
+        });*/
       }
     }
 
@@ -100,13 +100,13 @@ const actions = {
     } catch (error) {
       if (error.response && error.response.data) {
         commit("removeInstallingApp", appId);
-        return this.$bvToast.toast(error.response.data, {
+        /*return this.$bvToast.toast(error.response.data, {
           title: "Error",
           autoHideDelay: 3000,
           variant: "danger",
           solid: true,
           toaster: "b-toaster-bottom-right",
-        });
+        });*/
       }
     }
 

@@ -5,6 +5,16 @@ __metadata:
   version: 4
   cacheKey: 8
 
+"@aarondewes/bootstrap-vue-3@npm:^0.0.1-alpha.5":
+  version: 0.0.1-alpha.5
+  resolution: "@aarondewes/bootstrap-vue-3@npm:0.0.1-alpha.5"
+  dependencies:
+    bootstrap: ^5.1.0
+    core-js: ^3.16.3
+  checksum: 6f4ae0365ba6c94f283e6ad3d92ad42992f11ba1a1207556a4a4b5502d4b62817adab0ccec282fc01ec7b2d631bd3af424e7745a44828cd3d8a37b3aafb61479
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:7.12.11":
   version: 7.12.11
   resolution: "@babel/code-frame@npm:7.12.11"
@@ -100,19 +110,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@runcitadel/dashboard@workspace:."
   dependencies:
+    "@aarondewes/bootstrap-vue-3": ^0.0.1-alpha.5
     "@vitejs/plugin-vue": 1.6.0
     "@vue/compiler-sfc": ^3.2.6
     "@vue/eslint-config-prettier": ^6.0.0
     animate.css: ^4.1.1
     axios: ^0.21.1
     bignumber.js: ^9.0.1
-    bootstrap-icons-vue: ^0.7.0
-    bootstrap-vue-3: ^0.0.1
     core-js: ^3.16.3
     countup.js: ^2.0.8
     eslint: ^7.32.0
     eslint-plugin-prettier: ^3.4.1
-    eslint-plugin-vue: ^7.16.0
+    eslint-plugin-vue: ^7.17.0
     moment: ^2.29.1
     prettier: ^2.3.2
     qrcode.vue: ^3.2.2
@@ -498,33 +507,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap-icons-vue@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "bootstrap-icons-vue@npm:0.7.0"
-  checksum: 4b1627900db78c713cf20731e51221958c6872f455adb567d441b7ce5839d94e90f9e8489c8a01f5cbe57706f2e9d5ed10a158bf8d893d318d2ad144d564dded
-  languageName: node
-  linkType: hard
-
-"bootstrap-icons@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "bootstrap-icons@npm:1.5.0"
-  checksum: d36851ad6bf315d20589a7a7f4b513f867a4c55d85ac6881644c0261be56185307cde3f1968f326922a7a925c65897543ca9889ab3054e3a0e4a98005fcb7f4a
-  languageName: node
-  linkType: hard
-
-"bootstrap-vue-3@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "bootstrap-vue-3@npm:0.0.1"
-  dependencies:
-    bootstrap: ^5.0.2
-    bootstrap-icons: ^1.5.0
-    core-js: ^3.6.5
-    vue: ^3.0.0
-  checksum: 9a3c4121dead3c5dd276ad2d530eb6fe1954aaa87450c17ffabe88d1049959af24ed766b03c1739ee89b45b09a2b089dc197cbc48912b2e7cad74376388708ea
-  languageName: node
-  linkType: hard
-
-"bootstrap@npm:^5.0.2":
+"bootstrap@npm:^5.1.0":
   version: 5.1.0
   resolution: "bootstrap@npm:5.1.0"
   peerDependencies:
@@ -894,17 +877,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-vue@npm:^7.16.0":
-  version: 7.16.0
-  resolution: "eslint-plugin-vue@npm:7.16.0"
+"eslint-plugin-vue@npm:^7.17.0":
+  version: 7.17.0
+  resolution: "eslint-plugin-vue@npm:7.17.0"
   dependencies:
     eslint-utils: ^2.1.0
     natural-compare: ^1.4.0
     semver: ^6.3.0
     vue-eslint-parser: ^7.10.0
   peerDependencies:
-    eslint: ^6.2.0 || ^7.0.0
-  checksum: b60ed545eaa2f84c41cc09ed2213e698af2d81be4672c34d82a725fecb709f279b5868cc879194b7bf93dd7c19e1cba3f429b2756ac213f50aa2488b33d5765d
+    eslint: ^6.2.0 || ^7.0.0 || ^8.0.0-0
+  checksum: 2d94b6d7b605b21ee3e4139d63fef1ed5ddf6144fba947f15a31b4fdcfb0a3765201b3869d7ffe60635ad53da43b93ed70ae5b5f50b046153400cc7c0446a76f
   languageName: node
   linkType: hard
 
@@ -2629,7 +2612,7 @@ resolve@^1.20.0:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.0.0, vue@npm:^3.2.6":
+"vue@npm:^3.2.6":
   version: 3.2.6
   resolution: "vue@npm:3.2.6"
   dependencies:

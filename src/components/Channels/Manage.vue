@@ -222,16 +222,16 @@ export default {
         );
         this.$emit("channelclose");
         setTimeout(() => {
-          this.$bvToast.toast(`Channel closed`, {
+          /*this.$bvToast.toast(`Channel closed`, {
             title: "Lightning Network",
             autoHideDelay: 3000,
             variant: "success",
             solid: true,
             toaster: "b-toaster-bottom-right",
-          });
+          });*/
         }, 200);
       } catch (err) {
-        this.$bvToast.toast(
+        /*this.$bvToast.toast(
           err.response && err.response.data ? err.response.data : err,
           {
             title: "Error",
@@ -240,7 +240,7 @@ export default {
             solid: true,
             toaster: "b-toaster-bottom-right",
           }
-        );
+        );*/
       }
       this.isClosing = false;
     },
