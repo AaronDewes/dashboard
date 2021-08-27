@@ -2,7 +2,8 @@ $font-size-base: 1rem;
 
 @import './variables';
 @import 'node_modules/bootstrap/scss/bootstrap';
-@import 'node_modules/@aarondewes/bootstrap-vue-3/dist/style';
+@import 'node_modules/@aarondewes/bootstrap-vue-3/src/styles/styles';
+@import 'node_modules/@aarondewes/bootstrap-vue-3/src/styles/_variables';
 @import './fonts.scss';
 @import './custom.scss';
 @import './responsive.scss';
