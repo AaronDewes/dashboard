@@ -1,6 +1,6 @@
 import { createApp, h } from "vue";
 //import VueConfetti from "vue-confetti";
-import BootstrapVue from "bootstrap-vue-3";
+import BootstrapVue from "@aarondewes/bootstrap-vue-3";
 
 import App from "./App.vue";
 import router from "./router";
