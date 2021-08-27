@@ -249,8 +249,8 @@ export default {
               solid: true,
               toaster: "b-toaster-bottom-right",
             }
-          );
-        }, 200);*/
+          );*/
+        }, 200);
       } catch (error) {
         if (error.response && error.response.data) {
           this.isOpening = false;
